@@ -12,7 +12,9 @@ export default function Werdegang() {
               <h3 className="font-medium">
                 {entry.title} · {entry.organization}
               </h3>
-              <p className="mt-1 text-zinc-600 dark:text-zinc-400">{entry.description}</p>
+              {entry.description && (
+                <p className="mt-1 text-zinc-600 dark:text-zinc-400">{entry.description}</p>
+              )}
             </div>
           </li>
         ))}
