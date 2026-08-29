@@ -42,3 +42,6 @@ next-env.d.ts
 
 # local multi-agent coordination + security review notes (do not publish)
 .agents/
+
+# local Claude Code tooling state
+.claude/
