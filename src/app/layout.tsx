@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import ScrollProgress from "@/components/ScrollProgress";
+import GutterDecor from "@/components/GutterDecor";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,6 +31,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
       <body className="relative flex min-h-full flex-col bg-background text-foreground">
+        <GutterDecor side="left" />
+        <GutterDecor side="right" />
         <div className="grain" aria-hidden="true" />
         <ScrollProgress />
         <div className="relative z-10 flex min-h-full flex-1 flex-col">

@@ -49,6 +49,12 @@ body {
   color: var(--accent-contrast);
 }
 
+.dot-grid {
+  background-image: radial-gradient(circle, var(--foreground) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.05;
+}
+
 /* Subtle film-grain texture layered over the whole page for depth. */
 .grain {
   position: fixed;
