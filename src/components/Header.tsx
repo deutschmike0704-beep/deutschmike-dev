@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { profile } from "@/data/profile";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { href: "#werdegang", label: "Werdegang" },
@@ -60,7 +61,7 @@ export default function Header() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
         <Link
           href="#top"
           onClick={() => setMenuOpen(false)}
@@ -72,51 +73,55 @@ export default function Header() {
           <span className="hidden sm:inline">{profile.name}</span>
         </Link>
 
-        <nav className="hidden gap-1 text-sm sm:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`relative rounded-full px-3 py-1.5 transition-colors ${
-                activeHash === item.href
-                  ? "text-foreground"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              {activeHash === item.href && (
-                <motion.span
-                  layoutId="nav-pill"
-                  className="absolute inset-0 rounded-full bg-foreground/5"
-                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                />
-              )}
-              <span className="relative">{item.label}</span>
-            </Link>
-          ))}
-        </nav>
+        <div className="flex items-center gap-1">
+          <nav className="hidden gap-1 text-sm sm:flex">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`relative rounded-full px-3 py-1.5 transition-colors ${
+                  activeHash === item.href
+                    ? "text-foreground"
+                    : "text-muted hover:text-foreground"
+                }`}
+              >
+                {activeHash === item.href && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 rounded-full bg-foreground/5"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <span className="relative">{item.label}</span>
+              </Link>
+            ))}
+          </nav>
 
-        <button
-          type="button"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-expanded={menuOpen}
-          aria-label="Menü umschalten"
-          className="flex h-9 w-9 items-center justify-center rounded-full text-foreground sm:hidden"
-        >
-          <div className="flex flex-col gap-1.5">
-            <motion.span
-              animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 6 : 0 }}
-              className="h-px w-5 bg-foreground"
-            />
-            <motion.span
-              animate={{ opacity: menuOpen ? 0 : 1 }}
-              className="h-px w-5 bg-foreground"
-            />
-            <motion.span
-              animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -6 : 0 }}
-              className="h-px w-5 bg-foreground"
-            />
-          </div>
-        </button>
+          <ThemeToggle />
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-label="Menü umschalten"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-foreground sm:hidden"
+          >
+            <div className="flex flex-col gap-1.5">
+              <motion.span
+                animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 6 : 0 }}
+                className="h-px w-5 bg-foreground"
+              />
+              <motion.span
+                animate={{ opacity: menuOpen ? 0 : 1 }}
+                className="h-px w-5 bg-foreground"
+              />
+              <motion.span
+                animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -6 : 0 }}
+                className="h-px w-5 bg-foreground"
+              />
+            </div>
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
