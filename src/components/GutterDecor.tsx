@@ -7,7 +7,7 @@ export default function GutterDecor({ side }: { side: "left" | "right" }) {
       className={`pointer-events-none fixed inset-y-0 z-0 hidden overflow-hidden lg:block ${
         isLeft ? "left-0 border-r" : "right-0 border-l"
       } border-foreground/10`}
-      style={{ width: "calc(50% - 24rem)" }}
+      style={{ width: "calc(50% - 28rem)" }}
     >
       <div className="dot-grid absolute inset-0" />
       <div
