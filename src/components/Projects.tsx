@@ -1,40 +1,57 @@
 import { projects } from "@/data/profile";
 import { safeHttpUrl } from "@/lib/url";
+import ScrollReveal from "./ScrollReveal";
 
 export default function Projects() {
   return (
-    <section id="projekte" className="scroll-mt-20 border-t border-black/10 py-16 dark:border-white/10">
-      <h2 className="text-2xl font-semibold tracking-tight">Projekte</h2>
+    <section
+      id="projekte"
+      className="scroll-mt-20 border-t border-foreground/10 py-16"
+    >
+      <ScrollReveal>
+        <h2 className="font-display text-2xl font-semibold tracking-tight">
+          Projekte
+        </h2>
+      </ScrollReveal>
+
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
-        {projects.map((project) => {
+        {projects.map((project, i) => {
           const liveUrl = safeHttpUrl(project.url);
           const repoUrl = safeHttpUrl(project.repoUrl);
           return (
-            <article
+            <ScrollReveal
               key={project.name}
-              className="rounded-lg border border-black/10 p-5 dark:border-white/10"
+              delay={Math.min(i * 0.08, 0.32)}
+              className="group relative rounded-2xl border border-foreground/10 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5"
             >
-              <h3 className="font-medium">{project.name}</h3>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{project.description}</p>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-10"
+                style={{ backgroundImage: "linear-gradient(135deg, var(--accent), var(--accent-2))" }}
+              />
+              <h3 className="font-display font-semibold">{project.name}</h3>
+              <p className="mt-2 text-sm leading-6 text-muted">
+                {project.description}
+              </p>
               <ul className="mt-4 flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
                   <li
                     key={tag}
-                    className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400"
+                    className="rounded-full bg-foreground/5 px-2.5 py-1 text-xs text-muted"
                   >
                     {tag}
                   </li>
                 ))}
               </ul>
-              <div className="mt-4 flex gap-4 text-sm">
+              <div className="mt-5 flex gap-4 text-sm">
                 {liveUrl && (
                   <a
                     href={liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium underline underline-offset-4"
+                    className="font-medium text-accent underline-offset-4 hover:underline"
                   >
-                    Live
+                    Live ↗
                   </a>
                 )}
                 {repoUrl && (
@@ -42,13 +59,13 @@ export default function Projects() {
                     href={repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium underline underline-offset-4"
+                    className="font-medium text-accent underline-offset-4 hover:underline"
                   >
-                    Code
+                    Code ↗
                   </a>
                 )}
               </div>
-            </article>
+            </ScrollReveal>
           );
         })}
       </div>
