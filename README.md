@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# deutschmike.dev
 
-## Getting Started
+Persönliche Profil-/Vorstellungsseite von Mike Deutsch. Reines HTML/CSS, kein
+Build-Schritt, keine Abhängigkeiten – einfach Dateien bearbeiten und pushen.
 
-First, run the development server:
+## Lokal ansehen
+
+Einfach `index.html` im Browser öffnen, oder für einen lokalen Server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+python3 -m http.server 8000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+und dann `http://localhost:8000` aufrufen.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Struktur
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+index.html        Startseite (alle Sektionen: Hero, Werdegang, Skills, Projekte, Kontakt)
+impressum.html     Impressum (§ 5 DDG)
+datenschutz.html   Datenschutzerklärung
+404.html           Fehlerseite für GitHub Pages
+assets/style.css   Sämtliches Styling (CSS-Variablen für Light/Dark oben in :root)
+assets/favicon.svg Favicon (Monogramm "MD")
+lebenslauf.pdf      Aktuell nur ein Platzhalter – durch echten Lebenslauf ersetzen
+CNAME              Custom Domain für GitHub Pages (deutschmike.dev)
+```
 
-## Learn More
+## Inhalte pflegen
 
-To learn more about Next.js, take a look at the following resources:
+- **Texte ändern**: direkt in `index.html`, die Sektionen sind mit
+  `<section id="...">` klar benannt (werdegang, skills, projekte, kontakt).
+- **Neues Projekt hinzufügen**: im Bereich `#projekte` ein `<article
+  class="project-card">` kopieren, Badge/Titel/Text/Tags anpassen und bei
+  Bedarf einen Button mit Link zum GitHub-Repo ergänzen (`class="btn
+  btn-secondary"`).
+- **Lebenslauf aktualisieren**: `lebenslauf.pdf` im Hauptverzeichnis durch die
+  aktuelle PDF-Datei ersetzen (gleicher Dateiname, dann funktionieren alle
+  Links automatisch weiter).
+- **Foto ergänzen**: den Platzhalter-Kreis `<div class="hero-avatar">MD</div>`
+  in `index.html` durch `<img class="hero-avatar" src="assets/foto.jpg"
+  alt="Mike Deutsch">` ersetzen und ein quadratisches Foto unter
+  `assets/foto.jpg` ablegen.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Veröffentlichen
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Änderungen committen und auf `main` pushen – GitHub Pages baut daraus
+automatisch die live Seite unter https://deutschmike.dev/ (kein separater
+Build-Schritt, keine GitHub Action nötig).

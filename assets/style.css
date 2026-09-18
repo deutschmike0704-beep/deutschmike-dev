@@ -1,0 +1,599 @@
+/* deutschmike.dev — Basisstile. Reines CSS, kein Framework, kein Build-Schritt. */
+
+:root {
+  --bg: #fbfbfa;
+  --bg-alt: #f1f3f7;
+  --surface: #ffffff;
+  --border: #e2e5eb;
+  --text: #1b212b;
+  --text-muted: #525a68;
+  --accent: #2657eb;
+  --accent-contrast: #ffffff;
+  --focus: #2657eb;
+  --radius: 0.75rem;
+  --shadow: 0 1px 2px rgba(20, 24, 33, 0.06), 0 8px 24px rgba(20, 24, 33, 0.05);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --bg-alt: #161922;
+    --surface: #1a1e27;
+    --border: #2b303c;
+    --text: #e9ebef;
+    --text-muted: #a3acbd;
+    --accent: #7fa0ff;
+    --accent-contrast: #0f1115;
+    --focus: #7fa0ff;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: from-font;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  z-index: 100;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Header */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(150%) blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.9rem;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--accent);
+}
+
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+}
+
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+  content: "";
+  position: absolute;
+}
+
+.nav-toggle-label span::before {
+  top: -7px;
+}
+
+.nav-toggle-label span::after {
+  top: 7px;
+}
+
+.main-nav ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.main-nav a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 42rem) {
+  .nav-toggle-label {
+    display: block;
+  }
+
+  .main-nav {
+    display: none;
+    width: 100%;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    gap: 0;
+    padding-block: 0.5rem;
+  }
+
+  .main-nav a {
+    display: block;
+    padding: 0.75rem 0.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .site-header .container {
+    flex-wrap: wrap;
+  }
+
+  .nav-toggle:checked ~ .main-nav {
+    display: block;
+  }
+}
+
+/* Sections */
+
+section {
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+section + section {
+  border-top: 1px solid var(--border);
+}
+
+.section-eyebrow {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0 0 1.75rem;
+}
+
+.lede {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 46rem;
+}
+
+/* Hero */
+
+.hero {
+  padding-block: clamp(3.5rem, 8vw, 6rem) clamp(2.5rem, 6vw, 4rem);
+}
+
+.hero-inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 3.5rem);
+  flex-wrap: wrap;
+}
+
+.hero-text {
+  flex: 1 1 26rem;
+  min-width: 0;
+}
+
+.hero-avatar {
+  flex: 0 0 auto;
+  width: clamp(7rem, 16vw, 9.5rem);
+  height: clamp(7rem, 16vw, 9.5rem);
+  border-radius: 50%;
+  background: linear-gradient(
+    155deg,
+    var(--accent),
+    color-mix(in srgb, var(--accent) 55%, #7c3aed)
+  );
+  color: var(--accent-contrast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  user-select: none;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  margin: 0 0 0.35rem;
+}
+
+.hero .role {
+  font-size: 1.2rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0 0 1.1rem;
+}
+
+.hero p {
+  color: var(--text-muted);
+  max-width: 42rem;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.15rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--accent) 85%, black);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Werdegang timeline */
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid var(--border);
+  max-width: 46rem;
+}
+
+.timeline li {
+  position: relative;
+  padding: 0 0 2rem 1.75rem;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -0.4375rem;
+  top: 0.3rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+}
+
+.timeline li:last-child {
+  padding-bottom: 0;
+}
+
+.timeline .period {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+
+.timeline h3 {
+  font-size: 1.05rem;
+  margin: 0 0 0.15rem;
+}
+
+.timeline .org {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin: 0 0 0.4rem;
+}
+
+.timeline p.desc {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* Skills */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-group h3 {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+}
+
+.pill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+.pill .note {
+  color: var(--text-muted);
+  font-size: 0.8em;
+}
+
+/* Projects */
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.project-card h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.project-card p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.tag-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.82rem;
+}
+
+.tag-list li {
+  background: var(--bg-alt);
+  border-radius: 0.4rem;
+  padding: 0.25rem 0.55rem;
+  color: var(--text-muted);
+}
+
+.project-card .card-actions {
+  margin-top: auto;
+  padding-top: 0.25rem;
+}
+
+/* Contact */
+
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* Footer */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-block: 2rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.site-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+/* Legal pages */
+
+.legal main {
+  padding-block: clamp(2.5rem, 6vw, 4rem);
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.legal h1 {
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
+  margin-bottom: 0.25rem;
+}
+
+.legal h2 {
+  font-size: 1.1rem;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal p,
+.legal li {
+  color: var(--text-muted);
+}
+
+.legal .back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+/* 404 */
+
+.error-page main {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 34rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.error-page h1 {
+  font-size: clamp(2rem, 6vw, 3rem);
+}

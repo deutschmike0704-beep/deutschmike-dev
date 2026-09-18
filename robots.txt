@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://deutschmike.dev/sitemap.xml
