@@ -51,11 +51,13 @@
             Seit März 2026 durchlaufe ich bei WBS TRAINING in Bautzen die Umschulung zum
             Fachinformatiker für Anwendungsentwicklung (IHK). Aus meiner bisherigen
             handwerklichen Laufbahn bringe ich eine präzise, zuverlässige Arbeitsweise mit –
-            in einem eigenen Projekt wende ich das inzwischen auch beim Programmieren an,
-            zum Beispiel mit einer Python-Anwendung, die für eine Kundin automatisch
-            Rennfotos auswertet (mehr dazu weiter unten). Für die neunmonatige
-            Praxisphase meiner Umschulung ab März 2027 suche ich einen Praktikumsplatz
-            in der Anwendungsentwicklung.
+            in eigenen Projekten wende ich das inzwischen auch beim Programmieren an: eine
+            Python-Anwendung, die für eine Kundin automatisch Rennfotos auswertet, und eine
+            Web-Anwendung, die einem kleinen Dienstleistungsbetrieb die Auftragsplanung von
+            Excel-Listen auf eine zentrale Oberfläche umstellt (mehr dazu weiter unten). Mich
+            reizt dabei besonders, wie viel kleine Unternehmen mit etwas Digitalisierung
+            gewinnen können. Für die neunmonatige Praxisphase meiner Umschulung ab März 2027
+            suche ich einen Praktikumsplatz in der Anwendungsentwicklung.
           </p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#projekte">Projekte ansehen</a>
@@ -124,16 +126,25 @@
             <h3>Programmierung &amp; Web</h3>
             <ul class="pill-list">
               <li class="pill">HTML &amp; CSS</li>
-              <li class="pill">JavaScript <span class="note">(Grundlagen)</span></li>
+              <li class="pill">JavaScript</li>
+              <li class="pill">TypeScript <span class="note">(Projekterfahrung)</span></li>
+              <li class="pill">React &amp; Next.js <span class="note">(Projekterfahrung)</span></li>
               <li class="pill">Python <span class="note">(Projekterfahrung)</span></li>
               <li class="pill">Java <span class="note">(in der Umschulung)</span></li>
             </ul>
           </div>
           <div class="skill-group">
-            <h3>Datenbanken &amp; Systeme</h3>
+            <h3>Datenbanken</h3>
             <ul class="pill-list">
-              <li class="pill">SQL / Datenbanken <span class="note">(in der Umschulung)</span></li>
+              <li class="pill">SQL</li>
+              <li class="pill">PostgreSQL <span class="note">(Projekterfahrung)</span></li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Tools &amp; Deployment</h3>
+            <ul class="pill-list">
               <li class="pill">Git &amp; GitHub</li>
+              <li class="pill">Vercel</li>
               <li class="pill">Windows 10/11</li>
             </ul>
           </div>
@@ -162,6 +173,31 @@
         <h2>Was ich schon gebaut habe</h2>
         <div class="project-grid">
           <article class="project-card">
+            <span class="badge">Privates Projekt · für eine reale Firma</span>
+            <h3>Digitale Auftragsverwaltung für ein Dienstleistungsunternehmen</h3>
+            <p>
+              Eine kleine Dienstleistungsfirma (Reinigung, Grünflächen- und Winterdienst, rund
+              15 Mitarbeitende) hat Aufträge, Personaleinsatz und Kundenkontakte bisher auf
+              Zuruf und in Excel-Listen organisiert. Dafür baue ich eine webbasierte
+              Verwaltungssoftware: Aufträge werden zentral erfasst, nach Gebiet und Priorität
+              sortiert, dringende Fälle automatisch hervorgehoben. Ein Planungsboard weist
+              Mitarbeitende per Drag &amp; Drop den Einsatzgebieten zu, ein Wochenplan zeigt die
+              Schichten samt Arbeitsstunden, und eine Statistik-Seite gibt der Geschäftsführung
+              einen Überblick über Auslastung und offene Aufträge. Admins und Mitarbeitende
+              sehen dabei unterschiedliche Ansichten – je nach Rolle mit vollem
+              Bearbeitungszugriff oder nur lesend für die eigenen Gebiete.
+            </p>
+            <ul class="tag-list">
+              <li>Next.js</li>
+              <li>TypeScript</li>
+              <li>Tailwind CSS</li>
+              <li>PostgreSQL (Drizzle ORM)</li>
+              <li>Rollenbasierte Authentifizierung</li>
+              <li>Vercel</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
             <span class="badge">Privates Projekt · im Kundeneinsatz</span>
             <h3>Startnummern-Erkennung für Rennfotografie</h3>
             <p>
@@ -188,20 +224,24 @@
 
           <article class="project-card">
             <span class="badge">Öffentliches Repo</span>
-            <h3>Palworld Storage Manager</h3>
+            <h3>EPK-Werkstatt – Prozessketten lernen und zeichnen</h3>
             <p>
-              Ein Mod für das Spiel Palworld: Er fasst beim Craften automatisch die Materialien
-              aus allen Lagern einer Spieler-Basis zusammen, damit man nicht jede Kiste einzeln
-              durchsuchen muss, und hebt das Trage-Limit im Basis-Lager auf. Mit eigenem
-              Konfigurationssystem, 27 automatisierten Tests und ausführlicher Dokumentation.
+              Für meine Umschulung mussten wir ereignisgesteuerte Prozessketten (EPK)
+              verstehen und selbst zeichnen – ein Diagramm-Typ, der zeigt, in welcher
+              Reihenfolge Ereignisse und Tätigkeiten in einem Prozess ablaufen. Damit mir und
+              anderen Azubis der Einstieg leichter fällt, habe ich einen eigenen Zeichen-Editor
+              im Browser gebaut: Symbole per Drag &amp; Drop platzieren, verbinden, und dabei
+              live prüfen lassen, ob die Notationsregeln eingehalten werden – fehlerhafte
+              Stellen werden sofort mit Erklärung markiert. Dazu kommen ein interaktives
+              Tutorial, ein geschriebener Leitfaden mit Übungen sowie JSON- und SVG-Export.
             </p>
             <ul class="tag-list">
-              <li>Lua</li>
-              <li>UE4SS</li>
-              <li>Automatisierte Tests</li>
+              <li>JavaScript</li>
+              <li>HTML5 Canvas</li>
+              <li>Regelbasierte Validierung</li>
             </ul>
             <div class="card-actions">
-              <a class="btn btn-secondary" href="https://github.com/deutschmike0704-beep/palworld-storage-manager" target="_blank" rel="noopener">Repo auf GitHub</a>
+              <a class="btn btn-secondary" href="https://github.com/deutschmike0704-beep/epk-werkstatt" target="_blank" rel="noopener">Repo auf GitHub</a>
             </div>
           </article>
         </div>
