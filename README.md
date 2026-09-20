@@ -16,14 +16,17 @@ und dann `http://localhost:8000` aufrufen.
 ## Struktur
 
 ```
-index.html        Startseite (alle Sektionen: Hero, Werdegang, Skills, Projekte, Kontakt)
-impressum.html     Impressum (§ 5 DDG)
-datenschutz.html   Datenschutzerklärung
-404.html           Fehlerseite für GitHub Pages
-assets/style.css   Sämtliches Styling (CSS-Variablen für Light/Dark oben in :root)
-assets/favicon.svg Favicon (Monogramm "MD")
-lebenslauf.pdf      Aktuell nur ein Platzhalter – durch echten Lebenslauf ersetzen
-CNAME              Custom Domain für GitHub Pages (deutschmike.dev)
+index.html                Startseite (Hero, Werdegang, Skills, Projekte, Kontakt)
+impressum.html            Impressum (§ 5 DDG)
+datenschutz.html          Datenschutzerklärung
+404.html                  Fehlerseite für GitHub Pages
+assets/style.css          Sämtliches Styling (CSS-Variablen für Light/Dark oben in :root)
+assets/main.js            Kleine progressive Verbesserung (Scroll-Reveal, kein Framework)
+assets/favicon.svg        Favicon (Monogramm "MD")
+assets/mike-portrait.*    Hero-Foto (WebP + JPEG-Fallback), Duotone-Look kommt rein per CSS
+CNAME                     Custom Domain für GitHub Pages (deutschmike.dev)
+_material/                Rohmaterial/Arbeitsaufträge zur Website-Erstellung, nicht Teil der
+                          veröffentlichten Seite (gitignored, siehe .gitignore)
 ```
 
 ## Inhalte pflegen
@@ -34,13 +37,14 @@ CNAME              Custom Domain für GitHub Pages (deutschmike.dev)
   class="project-card">` kopieren, Badge/Titel/Text/Tags anpassen und bei
   Bedarf einen Button mit Link zum GitHub-Repo ergänzen (`class="btn
   btn-secondary"`).
-- **Lebenslauf aktualisieren**: `lebenslauf.pdf` im Hauptverzeichnis durch die
-  aktuelle PDF-Datei ersetzen (gleicher Dateiname, dann funktionieren alle
-  Links automatisch weiter).
-- **Foto ergänzen**: den Platzhalter-Kreis `<div class="hero-avatar">MD</div>`
-  in `index.html` durch `<img class="hero-avatar" src="assets/foto.jpg"
-  alt="Mike Deutsch">` ersetzen und ein quadratisches Foto unter
-  `assets/foto.jpg` ablegen.
+- **Hero-Foto austauschen**: neues Foto zuschneiden (Hochformat, Kopf/Schultern
+  mittig, Seitenverhältnis nahe 900:1738 spart eine erneute CSS-Anpassung) und
+  als `assets/mike-portrait.webp` + `assets/mike-portrait.jpg` ablegen, dabei
+  `width`/`height` am `<img>` in `index.html` auf die echten Pixelmaße
+  anpassen. Der Duotone-Effekt (Graustufen + Akzentfarbe per
+  `mix-blend-mode`) und die weiche Maskierung kommen automatisch aus
+  `style.css` (`.hero-photo`) – am Bild selbst muss nichts weiter bearbeitet
+  werden, und er passt sich Hell-/Dunkelmodus automatisch an.
 
 ## Veröffentlichen
 

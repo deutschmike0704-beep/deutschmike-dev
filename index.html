@@ -14,7 +14,9 @@
   <meta property="og:locale" content="de_DE">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="canonical" href="https://deutschmike.dev/">
+  <link rel="preload" href="assets/mike-portrait.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="assets/style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -41,28 +43,39 @@
   <main id="main">
     <section id="top" class="hero">
       <div class="container hero-inner">
-        <div class="hero-avatar" aria-hidden="true">MD</div>
         <div class="hero-text" id="ueber-mich">
           <p class="section-eyebrow">Praktikumsplatz Anwendungsentwicklung gesucht</p>
           <h1>Mike Deutsch</h1>
-          <p class="role">Angehender Fachinformatiker für Anwendungsentwicklung</p>
+          <p class="role">Vom Metallbau zum Code – angehender Fachinformatiker für Anwendungsentwicklung</p>
           <p>
-            Ich komme aus dem Metallbau und wechsle gerade in die Softwareentwicklung:
-            Seit März 2026 durchlaufe ich bei WBS TRAINING in Bautzen die Umschulung zum
-            Fachinformatiker für Anwendungsentwicklung (IHK). Aus meiner bisherigen
-            handwerklichen Laufbahn bringe ich eine präzise, zuverlässige Arbeitsweise mit –
-            in eigenen Projekten wende ich das inzwischen auch beim Programmieren an: eine
-            Python-Anwendung, die für eine Kundin automatisch Rennfotos auswertet, und eine
-            Web-Anwendung, die einem kleinen Dienstleistungsbetrieb die Auftragsplanung von
-            Excel-Listen auf eine zentrale Oberfläche umstellt (mehr dazu weiter unten). Mich
-            reizt dabei besonders, wie viel kleine Unternehmen mit etwas Digitalisierung
-            gewinnen können. Für die neunmonatige Praxisphase meiner Umschulung ab März 2027
-            suche ich einen Praktikumsplatz in der Anwendungsentwicklung.
+            Präzision aus dem Handwerk, jetzt im Code: Ich baue Werkzeuge, die echte
+            Probleme lösen – für eine Rennfotografin, einen Dienstleistungsbetrieb und
+            meine Mit-Azubis. Ab März 2027 suche ich dafür einen Praktikumsplatz in der
+            Anwendungsentwicklung.
           </p>
+          <ul class="hero-facts">
+            <li><strong>03/2026</strong><span>Umschulung gestartet</span></li>
+            <li><strong>2</strong><span>Projekte im echten Einsatz</span></li>
+            <li><strong>03/2027</strong><span>Praxisphase gesucht</span></li>
+          </ul>
           <div class="cta-row">
             <a class="btn btn-primary" href="#projekte">Projekte ansehen</a>
             <a class="btn btn-secondary" href="#kontakt">Kontakt aufnehmen</a>
-            <a class="btn btn-secondary" href="lebenslauf.pdf" target="_blank" rel="noopener">Lebenslauf (PDF)</a>
+          </div>
+        </div>
+        <div class="hero-photo">
+          <div class="frame">
+            <picture>
+              <source srcset="assets/mike-portrait.webp" type="image/webp">
+              <img
+                src="assets/mike-portrait.jpg"
+                alt="Mike Deutsch"
+                width="900"
+                height="1738"
+                loading="eager"
+                fetchpriority="high">
+            </picture>
+            <div class="tint" aria-hidden="true"></div>
           </div>
         </div>
       </div>
@@ -71,49 +84,57 @@
     <section id="werdegang">
       <div class="container">
         <p class="section-eyebrow">Werdegang</p>
-        <h2>Vom Metallbau in die Softwareentwicklung</h2>
+        <h2>Handwerk zuerst, Software jetzt</h2>
         <ol class="timeline">
           <li>
             <span class="period">seit 03/2026</span>
             <h3>Umschulung zum Fachinformatiker für Anwendungsentwicklung (IHK)</h3>
-            <p class="org">WBS TRAINING SE, Bautzen · voraussichtlicher Abschluss 03/2028, inkl. 9-monatiger betrieblicher Praxisphase ab 03/2027</p>
-            <p class="desc">
-              Schwerpunkte: strukturierte und objektorientierte Programmierung mit Java,
-              Datenbanken &amp; SQL, Netzwerktechnik, Informationssicherheit &amp; Datenschutz,
-              Web-Grundlagen (HTML/CSS/PHP) sowie Projektmanagement.
-            </p>
-          </li>
-          <li>
-            <span class="period">05/2025 – 10/2025</span>
-            <h3>Werkzeugmechaniker</h3>
-            <p class="org">Pulp-Tec GmbH &amp; Co. KG</p>
-          </li>
-          <li>
-            <span class="period">09/2024 – 12/2024</span>
-            <h3>Sachbearbeiter</h3>
-            <p class="org">Mediakom GmbH &amp; Co. KG</p>
-          </li>
-          <li>
-            <span class="period">09/2023 – 08/2024</span>
-            <h3>Metallbauer</h3>
-            <p class="org">Akzent Personaldienstleistungen GmbH &amp; Co. KG</p>
-          </li>
-          <li>
-            <span class="period">08/2022 – 08/2023</span>
-            <h3>Metallbauer</h3>
-            <p class="org">Gebr. Hähnel GbR</p>
-          </li>
-          <li>
-            <span class="period">2018 – 2022</span>
-            <h3>Ausbildung zum Metallbauer (Konstruktionstechnik)</h3>
-            <p class="org">ASB Anlagen-, Stahl- und Bau-Montagegesellschaft mbH, Bautzen · abgeschlossen</p>
-          </li>
-          <li>
-            <span class="period">2011 – 2018</span>
-            <h3>Schulbildung</h3>
-            <p class="org">Oberschule Radibor, anschließend Fachoberschule Technik am Beruflichen Schulzentrum Bautzen</p>
+            <p class="org">WBS TRAINING SE, Bautzen · Abschluss voraussichtlich 03/2028</p>
+            <ul class="tag-list">
+              <li>Java</li>
+              <li>SQL &amp; Datenbanken</li>
+              <li>Netzwerktechnik</li>
+              <li>IT-Sicherheit</li>
+              <li>Web-Grundlagen</li>
+            </ul>
           </li>
         </ol>
+
+        <details class="timeline-more">
+          <summary>Davor: neun Jahre Metallbau &amp; Ausbildung</summary>
+          <ol class="timeline">
+            <li>
+              <span class="period">05/2025 – 10/2025</span>
+              <h3>Werkzeugmechaniker</h3>
+              <p class="org">Pulp-Tec GmbH &amp; Co. KG</p>
+            </li>
+            <li>
+              <span class="period">09/2024 – 12/2024</span>
+              <h3>Sachbearbeiter</h3>
+              <p class="org">Mediakom GmbH &amp; Co. KG</p>
+            </li>
+            <li>
+              <span class="period">09/2023 – 08/2024</span>
+              <h3>Metallbauer</h3>
+              <p class="org">Akzent Personaldienstleistungen GmbH &amp; Co. KG</p>
+            </li>
+            <li>
+              <span class="period">08/2022 – 08/2023</span>
+              <h3>Metallbauer</h3>
+              <p class="org">Gebr. Hähnel GbR</p>
+            </li>
+            <li>
+              <span class="period">2018 – 2022</span>
+              <h3>Ausbildung zum Metallbauer (Konstruktionstechnik)</h3>
+              <p class="org">ASB Anlagen-, Stahl- und Bau-Montagegesellschaft mbH, Bautzen · abgeschlossen</p>
+            </li>
+            <li>
+              <span class="period">2011 – 2018</span>
+              <h3>Schulbildung</h3>
+              <p class="org">Oberschule Radibor, anschließend Fachoberschule Technik am Beruflichen Schulzentrum Bautzen</p>
+            </li>
+          </ol>
+        </details>
       </div>
     </section>
 
@@ -122,7 +143,7 @@
         <p class="section-eyebrow">Skills</p>
         <h2>Kenntnisse &amp; Fähigkeiten</h2>
         <div class="skills-grid">
-          <div class="skill-group">
+          <div class="skill-group reveal">
             <h3>Programmierung &amp; Web</h3>
             <ul class="pill-list">
               <li class="pill">HTML &amp; CSS</li>
@@ -133,14 +154,14 @@
               <li class="pill">Java <span class="note">(in der Umschulung)</span></li>
             </ul>
           </div>
-          <div class="skill-group">
+          <div class="skill-group reveal">
             <h3>Datenbanken</h3>
             <ul class="pill-list">
               <li class="pill">SQL</li>
               <li class="pill">PostgreSQL <span class="note">(Projekterfahrung)</span></li>
             </ul>
           </div>
-          <div class="skill-group">
+          <div class="skill-group reveal">
             <h3>Tools &amp; Deployment</h3>
             <ul class="pill-list">
               <li class="pill">Git &amp; GitHub</li>
@@ -148,7 +169,7 @@
               <li class="pill">Windows 10/11</li>
             </ul>
           </div>
-          <div class="skill-group">
+          <div class="skill-group reveal">
             <h3>Arbeitsweise</h3>
             <ul class="pill-list">
               <li class="pill">Fehlersuche &amp; Problemanalyse</li>
@@ -156,7 +177,7 @@
               <li class="pill">Teamfähigkeit</li>
             </ul>
           </div>
-          <div class="skill-group">
+          <div class="skill-group reveal">
             <h3>Sonstiges</h3>
             <ul class="pill-list">
               <li class="pill">Gute Englischkenntnisse</li>
@@ -172,20 +193,15 @@
         <p class="section-eyebrow">Projekte</p>
         <h2>Was ich schon gebaut habe</h2>
         <div class="project-grid">
-          <article class="project-card">
+          <article class="project-card reveal">
             <span class="badge">Privates Projekt · für eine reale Firma</span>
             <h3>Digitale Auftragsverwaltung für ein Dienstleistungsunternehmen</h3>
             <p>
-              Eine kleine Dienstleistungsfirma (Reinigung, Grünflächen- und Winterdienst, rund
-              15 Mitarbeitende) hat Aufträge, Personaleinsatz und Kundenkontakte bisher auf
-              Zuruf und in Excel-Listen organisiert. Dafür baue ich eine webbasierte
-              Verwaltungssoftware: Aufträge werden zentral erfasst, nach Gebiet und Priorität
-              sortiert, dringende Fälle automatisch hervorgehoben. Ein Planungsboard weist
-              Mitarbeitende per Drag &amp; Drop den Einsatzgebieten zu, ein Wochenplan zeigt die
-              Schichten samt Arbeitsstunden, und eine Statistik-Seite gibt der Geschäftsführung
-              einen Überblick über Auslastung und offene Aufträge. Admins und Mitarbeitende
-              sehen dabei unterschiedliche Ansichten – je nach Rolle mit vollem
-              Bearbeitungszugriff oder nur lesend für die eigenen Gebiete.
+              Eine kleine Dienstleistungsfirma (Reinigung, Grün- und Winterdienst, rund
+              15 Mitarbeitende) plante bisher alles per Excel und Zuruf. Ich baue dafür
+              eine zentrale Weboberfläche: Aufträge nach Gebiet und Priorität sortiert,
+              Personaleinsatz per Drag &amp; Drop geplant, Wochenplan und Statistik für die
+              Geschäftsführung – mit rollenbasierten Ansichten für Admins und Mitarbeitende.
             </p>
             <ul class="tag-list">
               <li>Next.js</li>
@@ -197,20 +213,15 @@
             </ul>
           </article>
 
-          <article class="project-card">
+          <article class="project-card reveal">
             <span class="badge">Privates Projekt · im Kundeneinsatz</span>
             <h3>Startnummern-Erkennung für Rennfotografie</h3>
             <p>
-              Bei Motocross- und Enduro-Rennen entstehen tausende Fotos – und auf jedem Bild
-              ist meist nur an der Startnummer zu erkennen, wer eigentlich abgebildet ist.
-              Mein Programm schaut sich jedes Foto automatisch an, findet die Startnummer am
-              Fahrer oder an der Maschine, liest die Ziffern und ordnet das Bild dem richtigen
-              Fahrer zu – inklusive Abgleich mit der offiziellen Startliste. Ist die Nummer
-              mal verschmutzt oder nicht lesbar, erkennt das Programm den Fahrer notfalls an
-              der Farbe von Trikot, Hose und Maschine wieder, weil es sich das von zuvor
-              sicher erkannten Bildern gemerkt hat. Am Ende bekommt die Fotografin fertig
-              sortierte Ordner pro Fahrer, ganz ohne stundenlanges Klicken – und alles läuft
-              offline direkt auf ihrem Rechner, es wird kein einziges Foto hochgeladen.
+              Bei Enduro-Rennen entstehen tausende Fotos – erkennbar ist ein Fahrer meist
+              nur an seiner Startnummer. Mein Programm findet sie automatisch auf jedem
+              Bild, liest sie aus und ordnet Fotos dem richtigen Fahrer zu, notfalls auch
+              anhand von Trikot- und Maschinenfarbe. Läuft komplett offline, direkt auf
+              dem Rechner der Fotografin.
             </p>
             <ul class="tag-list">
               <li>Python</li>
@@ -225,18 +236,15 @@
             </div>
           </article>
 
-          <article class="project-card">
+          <article class="project-card reveal">
             <span class="badge">Privates Projekt</span>
             <h3>EPK-Werkstatt – Prozessketten lernen und zeichnen</h3>
             <p>
-              Für meine Umschulung mussten wir ereignisgesteuerte Prozessketten (EPK)
-              verstehen und selbst zeichnen – ein Diagramm-Typ, der zeigt, in welcher
-              Reihenfolge Ereignisse und Tätigkeiten in einem Prozess ablaufen. Damit mir und
-              anderen Azubis der Einstieg leichter fällt, habe ich einen eigenen Zeichen-Editor
-              im Browser gebaut: Symbole per Drag &amp; Drop platzieren, verbinden, und dabei
-              live prüfen lassen, ob die Notationsregeln eingehalten werden – fehlerhafte
-              Stellen werden sofort mit Erklärung markiert. Dazu kommen ein interaktives
-              Tutorial, ein geschriebener Leitfaden mit Übungen sowie JSON- und SVG-Export.
+              Für die Umschulung mussten wir ereignisgesteuerte Prozessketten zeichnen
+              können. Damit mir und anderen Azubis der Einstieg leichter fällt, habe ich
+              einen Browser-Editor gebaut: Symbole per Drag &amp; Drop platzieren, verbinden,
+              Notationsregeln live prüfen lassen – inklusive Tutorial, Leitfaden und
+              JSON-/SVG-Export.
             </p>
             <ul class="tag-list">
               <li>JavaScript</li>
@@ -251,12 +259,11 @@
     <section id="kontakt">
       <div class="container">
         <p class="section-eyebrow">Kontakt</p>
-        <h2>Ich freue mich über Kontakt für ein Praktikum in der Anwendungsentwicklung</h2>
-        <p class="lede">Am schnellsten erreichst du mich per E-Mail.</p>
+        <h2>Lass uns reden.</h2>
+        <p class="lede">Ich suche einen Praktikumsplatz in der Anwendungsentwicklung ab März 2027 – am schnellsten erreichst du mich per E-Mail.</p>
         <div class="contact-row">
           <a class="btn btn-primary" href="mailto:deutschmike0704@proton.me">E-Mail schreiben</a>
           <a class="btn btn-secondary" href="https://github.com/deutschmike0704-beep" target="_blank" rel="noopener">GitHub-Profil</a>
-          <a class="btn btn-secondary" href="lebenslauf.pdf" target="_blank" rel="noopener">Lebenslauf (PDF)</a>
         </div>
       </div>
     </section>
@@ -272,5 +279,7 @@
       </ul>
     </div>
   </footer>
+
+  <script src="assets/main.js" defer></script>
 </body>
 </html>
