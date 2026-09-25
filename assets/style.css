@@ -1,5 +1,21 @@
 /* deutschmike.dev — Basisstile. Reines CSS, kein Framework, kein Build-Schritt. */
 
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/poppins-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/poppins-700.woff2") format("woff2");
+}
+
 :root {
   --bg: #fbfbfa;
   --bg-alt: #f1f3f7;

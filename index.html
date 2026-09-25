@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" prefix="og: https://ogp.me/ns# profile: https://ogp.me/ns/profile#">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,19 +8,84 @@
   <meta name="google-site-verification" content="cb3Qz9XQgxOxnwIaeNMOxwxwZ_Ee6lUNGkFh8p6T5OQ">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfa">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1115">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="profile">
+  <meta property="profile:first_name" content="Mike">
+  <meta property="profile:last_name" content="Deutsch">
   <meta property="og:title" content="Mike Deutsch – Fachinformatiker für Anwendungsentwicklung (i. A.)">
   <meta property="og:description" content="Umschüler zum Fachinformatiker für Anwendungsentwicklung, auf der Suche nach einem Praktikumsplatz. Werdegang, Skills und Projekte.">
   <meta property="og:url" content="https://deutschmike.dev/">
   <meta property="og:locale" content="de_DE">
+  <meta property="og:site_name" content="Mike Deutsch">
+  <meta property="og:image" content="https://deutschmike.dev/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mike Deutsch – angehender Fachinformatiker für Anwendungsentwicklung">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mike Deutsch – Fachinformatiker für Anwendungsentwicklung (i. A.)">
+  <meta name="twitter:description" content="Umschüler zum Fachinformatiker für Anwendungsentwicklung, auf der Suche nach einem Praktikumsplatz. Werdegang, Skills und Projekte.">
+  <meta name="twitter:image" content="https://deutschmike.dev/assets/og-image.jpg">
+  <meta name="twitter:image:alt" content="Mike Deutsch – angehender Fachinformatiker für Anwendungsentwicklung">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="canonical" href="https://deutschmike.dev/">
-  <link rel="preload" href="assets/mike-portrait.webp" as="image" fetchpriority="high">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/mike-deutsch.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="assets/style.css">
   <script>document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://deutschmike.dev/#person",
+        "name": "Mike Deutsch",
+        "url": "https://deutschmike.dev/",
+        "image": "https://deutschmike.dev/assets/mike-deutsch.jpg",
+        "jobTitle": "Angehender Fachinformatiker für Anwendungsentwicklung",
+        "description": "Mike Deutsch wechselt vom Metallbau in die Softwareentwicklung. Seit März 2026 macht er bei WBS TRAINING in Bautzen die Umschulung zum Fachinformatiker für Anwendungsentwicklung (IHK) und baut nebenbei eigene Projekte, u. a. eine automatische Startnummern-Erkennung für eine Sportfotografin und eine Auftragsverwaltung für einen Dienstleistungsbetrieb.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Bautzen",
+          "addressCountry": "DE"
+        },
+        "knowsAbout": [
+          "JavaScript", "TypeScript", "React", "Next.js", "Python", "Java",
+          "SQL", "PostgreSQL", "Git", "HTML", "CSS", "Computer Vision"
+        ],
+        "alumniOf": [
+          {
+            "@type": "EducationalOrganization",
+            "name": "WBS TRAINING SE"
+          },
+          {
+            "@type": "EducationalOrganization",
+            "name": "ASB Anlagen-, Stahl- und Bau-Montagegesellschaft mbH"
+          }
+        ],
+        "sameAs": [
+          "https://github.com/deutschmike0704-beep"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://deutschmike.dev/#website",
+        "url": "https://deutschmike.dev/",
+        "name": "Mike Deutsch",
+        "inLanguage": "de",
+        "author": { "@id": "https://deutschmike.dev/#person" }
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://deutschmike.dev/#webpage",
+        "url": "https://deutschmike.dev/",
+        "name": "Mike Deutsch – Fachinformatiker für Anwendungsentwicklung (i. A.)",
+        "isPartOf": { "@id": "https://deutschmike.dev/#website" },
+        "about": { "@id": "https://deutschmike.dev/#person" },
+        "primaryImageOfPage": "https://deutschmike.dev/assets/mike-deutsch.jpg",
+        "inLanguage": "de"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -51,7 +116,7 @@
           <div class="hero-text" id="ueber-mich">
             <p class="section-eyebrow">Praktikumsplatz Anwendungsentwicklung gesucht</p>
             <h1>Mike Deutsch</h1>
-            <p class="role">Vom Metallbau zum Code – angehender Fachinformatiker für Anwendungsentwicklung</p>
+            <p class="role">Vom Metallbau zum Code – angehender Fachinformatiker für Anwendungsentwicklung in Bautzen</p>
             <p>
               Präzision aus dem Handwerk, jetzt im Code: Ich baue Werkzeuge, die echte
               Probleme lösen – für eine Rennfotografin, einen Dienstleistungsbetrieb und
@@ -72,9 +137,9 @@
         <div class="hero-photo">
           <div class="frame">
             <picture>
-              <source srcset="assets/mike-portrait.webp" type="image/webp">
+              <source srcset="assets/mike-deutsch.webp" type="image/webp">
               <img
-                src="assets/mike-portrait.jpg"
+                src="assets/mike-deutsch.jpg"
                 alt="Mike Deutsch"
                 width="900"
                 height="1738"
@@ -269,7 +334,7 @@
         <p class="lede">Ich suche einen Praktikumsplatz in der Anwendungsentwicklung ab März 2027 – am schnellsten erreichst du mich per E-Mail.</p>
         <div class="contact-row">
           <a class="btn btn-primary" href="mailto:deutschmike0704@proton.me">E-Mail schreiben</a>
-          <a class="btn btn-secondary" href="https://github.com/deutschmike0704-beep" target="_blank" rel="noopener">GitHub-Profil</a>
+          <a class="btn btn-secondary" href="https://github.com/deutschmike0704-beep" target="_blank" rel="noopener me">GitHub-Profil</a>
         </div>
       </div>
     </section>
@@ -281,7 +346,7 @@
       <ul class="footer-links">
         <li><a href="impressum.html">Impressum</a></li>
         <li><a href="datenschutz.html">Datenschutz</a></li>
-        <li><a href="https://github.com/deutschmike0704-beep" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://github.com/deutschmike0704-beep" target="_blank" rel="noopener me">GitHub</a></li>
       </ul>
     </div>
   </footer>
