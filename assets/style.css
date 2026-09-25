@@ -464,6 +464,11 @@ h2 {
   color: var(--btn-secondary-contrast);
 }
 
+.btn-demo {
+  background: #15803d;
+  color: #ffffff;
+}
+
 /* Werdegang timeline */
 
 .timeline {
