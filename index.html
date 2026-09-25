@@ -26,6 +26,8 @@
   <meta name="twitter:image" content="https://deutschmike.dev/assets/og-image.jpg">
   <meta name="twitter:image:alt" content="Mike Deutsch – angehender Fachinformatiker für Anwendungsentwicklung">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
   <link rel="canonical" href="https://deutschmike.dev/">
   <link rel="preload" href="assets/mike-deutsch.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="assets/style.css">
@@ -72,6 +74,35 @@
         "name": "Mike Deutsch",
         "inLanguage": "de",
         "author": { "@id": "https://deutschmike.dev/#person" }
+      },
+      {
+        "@type": "CreativeWork",
+        "@id": "https://deutschmike.dev/#project-auftragsverwaltung",
+        "name": "Digitale Auftragsverwaltung für ein Dienstleistungsunternehmen",
+        "description": "Webbasierte Auftrags-, Personal- und Kundenverwaltung für einen kleinen Dienstleistungsbetrieb (Reinigung, Grün- und Winterdienst): Aufträge nach Gebiet und Priorität, Personaleinsatz per Drag & Drop, Wochenplan und Statistik, rollenbasierte Ansichten.",
+        "url": "https://deutschmike.dev/auftragsverwaltung-live-demo.html",
+        "creator": { "@id": "https://deutschmike.dev/#person" },
+        "keywords": ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Drizzle ORM"],
+        "inLanguage": "de"
+      },
+      {
+        "@type": "CreativeWork",
+        "@id": "https://deutschmike.dev/#project-startnummern",
+        "name": "Startnummern-Erkennung für Rennfotografie",
+        "description": "Programm, das auf Enduro-Rennfotos automatisch die Startnummer erkennt, ausliest und dem richtigen Fahrer zuordnet – inklusive Abgleich mit der Startliste und Wiedererkennung anhand von Trikot- und Maschinenfarbe. Läuft vollständig offline.",
+        "url": "https://deutschmike.dev/startnummern-live-demo.html",
+        "creator": { "@id": "https://deutschmike.dev/#person" },
+        "keywords": ["Python", "OpenCV", "YOLO", "OCR", "SQLite"],
+        "inLanguage": "de"
+      },
+      {
+        "@type": "CreativeWork",
+        "@id": "https://deutschmike.dev/#project-epk-werkstatt",
+        "name": "EPK-Werkstatt – Prozessketten lernen und zeichnen",
+        "description": "Browserbasierter Editor für ereignisgesteuerte Prozessketten (EPK): Symbole per Drag & Drop platzieren und verbinden, Notationsregeln live prüfen lassen, inklusive Tutorial und JSON-/SVG-Export.",
+        "creator": { "@id": "https://deutschmike.dev/#person" },
+        "keywords": ["JavaScript", "HTML5 Canvas"],
+        "inLanguage": "de"
       },
       {
         "@type": "ProfilePage",
@@ -282,6 +313,9 @@
               <li>Rollenbasierte Authentifizierung</li>
               <li>Vercel</li>
             </ul>
+            <div class="card-actions">
+              <a class="btn btn-secondary" href="auftragsverwaltung-live-demo.html" target="_blank" rel="noopener">Live-Demo ansehen</a>
+            </div>
           </article>
 
           <article class="project-card reveal">
