@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Live-Demo: Startnummern-Erkennung – Mike Deutsch</title>
-<meta name="description" content="Interaktive Demo der Startnummern-Erkennung mit anonymisierten Beispieldaten: Foto-Zuordnung, Status und Begründung wie im echten Programm.">
+<meta name="description" content="Interaktive Demo der Startnummern-Erkennung: Hauptmenü, Veranstaltung mit Foto-Raster, Prüfansicht mit dem Zuschnitt-Kniff, Fahrerkartei und die neuen Funktionen – mit anonymisierten Beispieldaten, ohne echte Rennfotos, komplett offline.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://deutschmike.dev/startnummern-live-demo.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Live-Demo: Startnummern-Erkennung – Mike Deutsch">
-<meta property="og:description" content="Interaktive Demo der Startnummern-Erkennung mit anonymisierten Beispieldaten: Foto-Zuordnung, Status und Begründung wie im echten Programm.">
+<meta property="og:description" content="Interaktive Demo der Startnummern-Erkennung: Hauptmenü, Veranstaltung, Prüfansicht mit dem Zuschnitt-Kniff und Fahrerkartei – anonymisierte Beispieldaten, keine echten Rennfotos, komplett offline.">
 <meta property="og:url" content="https://deutschmike.dev/startnummern-live-demo.html">
 <meta property="og:locale" content="de_DE">
 <meta property="og:site_name" content="Mike Deutsch">
@@ -19,7 +19,7 @@
 <meta property="og:image:alt" content="Mike Deutsch – angehender Fachinformatiker für Anwendungsentwicklung">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Live-Demo: Startnummern-Erkennung – Mike Deutsch">
-<meta name="twitter:description" content="Interaktive Demo der Startnummern-Erkennung mit anonymisierten Beispieldaten: Foto-Zuordnung, Status und Begründung wie im echten Programm.">
+<meta name="twitter:description" content="Interaktive Demo der Startnummern-Erkennung mit anonymisierten Beispieldaten: Foto-Zuordnung, Prüfansicht und Fahrerkartei wie im echten Programm.">
 <meta name="twitter:image" content="https://deutschmike.dev/assets/og-image.png">
 <meta name="twitter:image:alt" content="Mike Deutsch – angehender Fachinformatiker für Anwendungsentwicklung">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -40,7 +40,7 @@
       "@id": "https://deutschmike.dev/startnummern-live-demo.html#webpage",
       "url": "https://deutschmike.dev/startnummern-live-demo.html",
       "name": "Live-Demo: Startnummern-Erkennung – Mike Deutsch",
-      "description": "Interaktive Demo der Startnummern-Erkennung mit anonymisierten Beispieldaten: Foto-Zuordnung, Status und Begründung wie im echten Programm.",
+      "description": "Interaktive Demo der Startnummern-Erkennung mit anonymisierten Beispieldaten: Foto-Zuordnung, Prüfansicht und Fahrerkartei wie im echten Programm.",
       "inLanguage": "de",
       "isPartOf": { "@id": "https://deutschmike.dev/#website" },
       "about": { "@id": "https://deutschmike.dev/#project-startnummern" },
@@ -56,202 +56,974 @@
     --sicher:#3ddc97; --wahr:#f5b642; --pruef:#8a93a3; --accent:#5b9cff;
   }
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{margin:0;background:var(--bg);color:var(--text);
        font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-  .topbar{padding:10px 24px;background:#0e1013;border-bottom:1px solid var(--line);
+  button{font:inherit;cursor:pointer}
+  a{color:var(--accent)}
+
+  /* ---- Demo-Rahmen ---- */
+  .topbar{padding:9px 20px;background:#0e1013;border-bottom:1px solid var(--line);
        display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
-       font-size:12.5px;color:var(--dim)}
+       font-size:12.5px;color:var(--dim);position:sticky;top:0;z-index:70}
   .topbar a{color:var(--accent);text-decoration:none;font-weight:600}
   .topbar a:hover{text-decoration:underline}
   .badge-demo{background:var(--panel2);border:1px solid var(--line);border-radius:999px;
        padding:3px 11px;color:var(--dim)}
-  header{padding:20px 24px;border-bottom:1px solid var(--line);background:var(--panel)}
-  h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.2px}
-  .sub{color:var(--dim);font-size:13px;margin-top:3px}
-  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+
+  /* ---- gemeinsame Bausteine ---- */
+  .btn{padding:7px 13px;border-radius:999px;border:1px solid var(--line);
+       background:var(--panel);color:var(--dim);font-size:13px}
+  .btn:hover{color:var(--text);border-color:var(--faint)}
+  .btn.on{background:var(--accent);border-color:var(--accent);color:#0b1220;font-weight:600}
+  .btn.stark{background:var(--accent);border-color:var(--accent);color:#0b1220;font-weight:600}
+  .btn.stark:hover{color:#0b1220}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .sub{color:var(--dim);font-size:13px}
+
+  /* ---- Screens umschalten ---- */
+  .screen{display:none}
+  .screen.an{display:block}
+
+  /* ---- Hauptmenü ---- */
+  .mwrap{max-width:820px;margin:0 auto;padding:40px 22px 60px}
+  .gruss{text-align:center;font-size:23px;font-weight:600;color:var(--accent);margin-bottom:16px}
+  .mkopf{margin-bottom:26px}
+  .mkopf h1{font-size:26px;margin:0 0 6px}
+  .modus{display:inline-flex;position:relative;background:var(--panel2);border:1px solid var(--line);
+         border-radius:999px;padding:4px;margin-top:14px}
+  .modus button{position:relative;z-index:1;background:none;border:none;color:var(--dim);
+         padding:7px 18px;border-radius:999px;font-size:13.5px;font-weight:600}
+  .modus button.on{color:#10131a}
+  .modus i{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);
+         background:var(--accent);border-radius:999px;transition:transform .22s ease;z-index:0}
+  .modus[data-m="pferd"] i{transform:translateX(100%)}
+  .modushinweis{display:block;color:var(--faint);font-size:12px;margin-top:9px;min-height:16px}
+  .kacheln{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kachel{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+          padding:16px 17px;text-align:left;color:inherit;display:flex;flex-direction:column;gap:6px;min-height:118px}
+  .kachel:hover{border-color:var(--accent);background:var(--panel2)}
+  .kachel .sym{font-size:24px;line-height:1}
+  .kachel .kt{font-size:16px;font-weight:650}
+  .kachel .kz{color:var(--dim);font-size:12.5px;flex:1}
+  .kachel .kn{font-size:22px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+  .kachel.stark{border-color:var(--accent);background:#1a2231}
+  .kachel.breit{grid-column:1/-1;min-height:0;flex-direction:row;align-items:center;gap:14px}
+  .kachel.breit .kz{flex:1;margin:0}
+  .kachel.breit .sym{font-size:21px}
+  body[data-modus="pferd"] .kachel.stark{background:#2a2317;border-color:var(--wahr)}
+  body[data-modus="pferd"] .modus i{background:var(--wahr)}
+  body[data-modus="pferd"]{--accent:#f5b642}
+  .weiter{margin-top:24px;width:100%;background:var(--panel);border:1px solid var(--line);
+          border-radius:12px;padding:13px 16px;text-align:left;color:inherit}
+  .weiter:hover{border-color:var(--accent)}
+  .weiter b{color:var(--accent)}
+  .mfuss{margin-top:30px;color:var(--faint);font-size:12px;line-height:1.8}
+
+  /* ---- Veranstaltung ---- */
+  header.evh{padding:16px 22px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .titel{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  header.evh h1{margin:0;font-size:18px;font-weight:600}
+  .kopfbtns{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+  .kopfbtns select.btn{padding:6px 10px}
+  .stats{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
   .stat{background:var(--panel2);border:1px solid var(--line);border-radius:8px;
-        padding:9px 14px;min-width:118px}
-  .stat b{display:block;font-size:21px;font-weight:650;line-height:1.25}
-  .stat span{color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:.6px}
-  .wrap{display:flex;align-items:flex-start;min-height:calc(100vh - 170px)}
-  aside{width:236px;flex:0 0 236px;border-right:1px solid var(--line);
-        padding:16px 12px;position:sticky;top:0;max-height:100vh;overflow:auto}
+        padding:8px 14px;min-width:112px;text-align:left;color:inherit}
+  .stat:hover{border-color:var(--accent)}
+  .stat b{display:block;font-size:20px;font-weight:650;line-height:1.25;font-variant-numeric:tabular-nums}
+  .stat span{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+  .wrap{display:flex;align-items:flex-start}
+  aside{width:246px;flex:0 0 246px;border-right:1px solid var(--line);
+        padding:14px 11px;position:sticky;top:41px;max-height:calc(100vh - 41px);overflow:auto}
   .find{width:100%;padding:9px 11px;border-radius:7px;border:1px solid var(--line);
-        background:var(--panel2);color:var(--text);font-size:14px;margin-bottom:12px}
+        background:var(--panel2);color:var(--text);font-size:14px}
   .find:focus{outline:none;border-color:var(--accent)}
-  .lbl{color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.7px;
-       margin:14px 6px 7px}
+  .lbl{color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.7px;margin:15px 6px 7px}
+  .fzeile{display:flex;align-items:baseline;justify-content:space-between;margin:15px 6px 7px}
+  .fsort{background:var(--panel);color:var(--dim);border:1px solid var(--line);
+         border-radius:6px;font-size:11px;padding:3px 5px}
   .row{display:flex;align-items:center;justify-content:space-between;gap:8px;
        padding:7px 10px;border-radius:7px;cursor:pointer;border:1px solid transparent}
   .row:hover{background:var(--panel2)}
   .row.on{background:var(--panel2);border-color:var(--accent)}
-  .row .num{font-weight:650;font-variant-numeric:tabular-nums}
+  .row .nm{font-weight:650;font-variant-numeric:tabular-nums}
+  .row .who{color:var(--dim);font-size:11.5px;display:block;font-weight:400}
   .row .cnt{color:var(--dim);font-size:12px;font-variant-numeric:tabular-nums}
-  main{flex:1;padding:16px 20px;min-width:0}
-  .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
-  .tab{padding:7px 13px;border-radius:999px;border:1px solid var(--line);
-       background:var(--panel);color:var(--dim);cursor:pointer;font-size:13px}
-  .tab:hover{color:var(--text)}
-  .tab.on{background:var(--accent);border-color:var(--accent);color:#0b1220;font-weight:600}
-  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
-  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(185px,1fr))}
+  main{flex:1;padding:14px 18px;min-width:0}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .bartrenn{width:1px;align-self:stretch;background:var(--line);margin:0 3px}
+  .grid{display:grid;gap:11px;grid-template-columns:repeat(auto-fill,minmax(172px,1fr))}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:9px;
-        overflow:hidden;cursor:pointer;transition:border-color .12s}
+        overflow:hidden;cursor:pointer;position:relative}
   .card:hover{border-color:var(--accent)}
-  .ph{position:relative;aspect-ratio:2/3;background:#0d0f12;overflow:hidden}
+  .card.gewaehlt{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+  .card .haken{position:absolute;right:6px;top:6px;width:22px;height:22px;border-radius:50%;
+       background:var(--accent);color:#0b1220;font-weight:800;font-size:14px;display:none;
+       align-items:center;justify-content:center;z-index:2}
+  .card.gewaehlt .haken{display:flex}
+  body.auswahl .card{cursor:copy}
+  .ph{position:relative;aspect-ratio:2/3;background:#0d0f12}
   .ph img{width:100%;height:100%;object-fit:cover;display:block}
-  .tag{position:absolute;left:7px;top:7px;padding:3px 9px;border-radius:6px;
-       font-weight:700;font-size:15px;color:#0b1220;font-variant-numeric:tabular-nums}
-  .meta{padding:7px 9px;font-size:11.5px;color:var(--dim);display:flex;
-        justify-content:space-between;gap:6px}
-  .meta .fn{color:var(--faint);font-family:ui-monospace,Menlo,monospace;font-size:11px}
-  .empty{color:var(--dim);padding:50px 10px;text-align:center}
-  dialog{border:none;border-radius:12px;background:var(--panel);color:var(--text);
-         padding:0;max-width:min(94vw,880px);box-shadow:0 24px 70px rgba(0,0,0,.65)}
-  dialog::backdrop{background:rgba(0,0,0,.78)}
-  .dg{display:grid;grid-template-columns:minmax(0,1fr) 268px}
-  .dg img{width:100%;max-height:76vh;object-fit:contain;background:#0d0f12;display:block}
-  .side{padding:20px;border-left:1px solid var(--line)}
-  .side h2{margin:0 0 3px;font-size:38px;font-variant-numeric:tabular-nums;line-height:1}
-  .side .st{font-size:13px;margin-bottom:16px}
-  .kv{margin:11px 0}
-  .kv span{display:block;color:var(--faint);font-size:11px;text-transform:uppercase;
-           letter-spacing:.6px;margin-bottom:2px}
+  .tag{position:absolute;left:6px;top:6px;padding:2px 8px;border-radius:6px;
+       font-weight:700;font-size:14px;color:#0b1220;font-variant-numeric:tabular-nums}
+  .tag.offen{background:var(--panel2);color:var(--dim);border:1px solid var(--line);font-size:11px;font-weight:600}
+  .vidmark{position:absolute;right:6px;top:6px;background:rgba(0,0,0,.6);color:#fff;
+       border-radius:6px;padding:1px 6px;font-size:11px;font-weight:700}
+  .gastmark{position:absolute;left:6px;bottom:26px;background:#5b9cff;color:#0b1220;
+       border-radius:5px;padding:0 6px;font-size:10px;font-weight:800;letter-spacing:.5px}
+  .meta{padding:6px 8px;font-size:11px;color:var(--faint);display:flex;justify-content:space-between;
+        font-family:ui-monospace,Menlo,monospace}
+  .leer{color:var(--dim);padding:44px 10px;text-align:center}
+  .auswahlleiste{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:13px;
+       padding:10px 12px;border:1px solid var(--accent);background:var(--panel2);border-radius:10px}
+  .auswahlleiste[hidden]{display:none}
+  .auswahlleiste .eingabe{padding:8px 12px;border-radius:8px;border:1px solid var(--line);
+       background:var(--panel);color:var(--text);width:120px;text-align:center;font-weight:700}
+  .fakten{margin-top:26px;border-top:1px solid var(--line);padding-top:16px}
+  .fakten h3{margin:0 0 4px;font-size:13px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px}
+  .faktgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-top:10px}
+  .fakt{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:11px 13px}
+  .fakt b{display:block;font-size:19px;color:var(--sicher);font-variant-numeric:tabular-nums}
+  .fakt span{color:var(--dim);font-size:12px}
+
+  /* ---- Prüfen ---- */
+  .pruef.an{display:grid;grid-template-columns:minmax(0,1fr) 356px;grid-template-rows:100%;
+       position:fixed;inset:41px 0 0 0;z-index:50;background:#0d0f12;overflow:hidden}
+  .pv{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;background:#0b0d10}
+  .pv .haupt{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;
+       justify-content:center;padding:14px;gap:12px;position:relative}
+  .buehne{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%}
+  .buehne img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;
+       position:absolute;transition:opacity .3s ease}
+  .badge{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:3;
+       padding:6px 14px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap;
+       display:flex;align-items:center;gap:7px}
+  .badge.rot{background:#3a2226;color:#ff9ba6;border:1px solid #7a3b44}
+  .badge.gruen{background:#17311f;color:#7ff0b6;border:1px solid #2f6b46}
+  .umschalt{display:inline-flex;background:var(--panel2);border:1px solid var(--line);
+       border-radius:999px;padding:4px;position:relative}
+  .umschalt button{position:relative;z-index:1;background:none;border:none;color:var(--dim);
+       padding:8px 15px;border-radius:999px;font-size:13px;font-weight:600}
+  .umschalt button.on{color:#0b1220}
+  .umschalt i{position:absolute;top:4px;bottom:4px;left:4px;border-radius:999px;
+       background:var(--accent);transition:transform .22s ease,width .22s ease;z-index:0}
+  .bunterschrift{color:var(--dim);font-size:12.5px;max-width:460px;text-align:center;min-height:34px}
+  .streifen{height:132px;flex:0 0 132px;border-top:1px solid var(--line);display:flex;
+       align-items:center;gap:9px;padding:8px 14px;background:#0d0f12;overflow-x:auto}
+  .streifen .zlabel{color:var(--faint);font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;
+       writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;flex:0 0 auto}
+  .nb{position:relative;height:100%;flex:0 0 auto;cursor:pointer}
+  .nb img{height:100%;border-radius:6px;border:2px solid var(--line);display:block}
+  .nb:hover img{border-color:var(--accent)}
+  .nb .nbn{position:absolute;left:4px;top:4px;background:var(--sicher);color:#0b1220;
+       border-radius:4px;padding:0 6px;font-size:12px;font-weight:800}
+  .ps{padding:20px;border-left:1px solid var(--line);background:var(--panel);overflow:auto;
+       display:flex;flex-direction:column;min-height:0}
+  .ps h2{margin:0 0 2px;font-size:15px}
+  .fortschritt{height:5px;background:var(--panel2);border-radius:3px;margin:12px 0 18px}
+  .fortschritt i{display:block;height:100%;background:var(--accent);border-radius:3px}
+  .gross{font-size:34px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+  .kv{margin:13px 0}
+  .kv > span{display:block;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+  .eingabe{width:100%;padding:12px 14px;border-radius:9px;border:2px solid var(--accent);
+       background:var(--panel2);color:var(--text);font-size:26px;font-weight:700;text-align:center;
+       font-variant-numeric:tabular-nums}
+  .eingabe:focus{outline:none;background:#20283a}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .chip{padding:6px 11px;border-radius:7px;border:1px solid var(--line);background:var(--panel2);
+       color:var(--text);font-weight:650;font-variant-numeric:tabular-nums}
+  .chip:hover{border-color:var(--accent)}
+  .chip.gelernt{border-color:#3f6b4f;background:#1d2a22}
+  .chip small{color:var(--dim);font-weight:400;margin-left:5px}
+  .chip.gelernt small{color:var(--sicher)}
+  label.mit{display:flex;align-items:center;gap:8px;color:var(--dim);font-size:12.5px;margin-top:14px;cursor:pointer}
+  .aktionen{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .aktionen .btn{flex:1;text-align:center;padding:10px}
+  .tasten{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);
+       color:var(--faint);font-size:11.5px;line-height:1.9}
+  .tasten kbd{background:var(--panel2);border:1px solid var(--line);border-radius:4px;
+       padding:1px 6px;font-family:ui-monospace,Menlo,monospace;font-size:11px}
+
+  /* ---- Fahrerkartei ---- */
+  .kartei .kwrap{max-width:1000px;margin:0 auto;padding:22px}
+  .kartei h1{font-size:20px;margin:0 0 4px}
+  .kunde{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:14px}
+  .kunde .ktop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .kunde .knum{background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+       padding:4px 11px;font-weight:800;font-variant-numeric:tabular-nums}
+  .kunde .kname{font-weight:650}
+  .kunde .kmeta{color:var(--dim);font-size:12.5px}
+  .kunde .kbtn{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .kunde .evgrp{margin-top:12px}
+  .kunde .evtitel{color:var(--faint);font-size:12px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px}
+  .kstreifen{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+  .kstreifen img{height:120px;border-radius:7px;border:1px solid var(--line);flex:0 0 auto}
+
+  /* ---- Dialoge ---- */
+  dialog{border:none;border-radius:12px;background:var(--panel);color:var(--text);padding:0;
+       max-width:min(94vw,760px);box-shadow:0 24px 70px rgba(0,0,0,.65)}
+  dialog::backdrop{background:rgba(0,0,0,.74)}
+  .dg{display:grid;grid-template-columns:minmax(0,1fr) 280px}
+  .dg > img{width:100%;max-height:78vh;object-fit:contain;background:#0d0f12;display:block}
+  .dside{padding:22px}
+  .dside h2{margin:0 0 3px;font-size:38px;font-variant-numeric:tabular-nums;line-height:1}
+  .dside .st{font-size:13px;margin-bottom:16px}
   .close{margin-top:18px;width:100%;padding:9px;border-radius:7px;border:1px solid var(--line);
-         background:var(--panel2);color:var(--text);cursor:pointer;font-size:13px}
+       background:var(--panel2);color:var(--text)}
   .close:hover{border-color:var(--accent)}
-  footer{padding:16px 24px;border-top:1px solid var(--line);color:var(--faint);font-size:12px}
+  .fform{padding:22px;width:min(94vw,520px)}
+  .fform h2{margin:0 0 4px;font-size:17px}
+  .felliste{margin-top:12px;max-height:52vh;overflow:auto;display:grid;gap:5px}
+  .felz{display:flex;align-items:center;gap:10px;padding:7px 10px;border:1px solid var(--line);
+       border-radius:7px;font-size:13px}
+  .felz b{font-variant-numeric:tabular-nums;min-width:44px}
+  .felz .gastp{background:#5b9cff;color:#0b1220;border-radius:5px;padding:0 6px;font-size:10px;font-weight:800;margin-left:auto}
+
+  /* ---- Hintergrund-Fortschrittsleiste ---- */
+  .laufleiste{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--panel);
+       border-top:2px solid var(--accent);box-shadow:0 -8px 24px rgba(0,0,0,.35);
+       padding:9px 16px;display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;font-size:13px}
+  .laufleiste[hidden]{display:none}
+  .laufleiste .ltitel{font-weight:600;flex:1 1 220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .laufleiste .ltitel small{font-weight:400;color:var(--dim);margin-left:6px}
+  .lbalken{flex:2 1 180px;height:8px;background:var(--panel2);border-radius:4px;overflow:hidden}
+  .lbalken i{display:block;height:100%;background:var(--accent);width:0;transition:width .5s ease}
+  .linfo{color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
+  body.hatlauf .mfuss{margin-bottom:60px}
+
+  .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--panel2);
+       border:1px solid var(--accent);border-radius:9px;padding:10px 18px;z-index:99;display:none;
+       max-width:90vw;text-align:center}
+  .toast.an{display:block}
+
+  footer{padding:22px;border-top:1px solid var(--line);color:var(--faint);font-size:12px;
+       line-height:1.7;max-width:900px;margin:0 auto}
   footer a{color:var(--accent)}
-  @media(max-width:780px){
-    .wrap{flex-direction:column}
-    aside{width:100%;flex:none;position:static;max-height:none;border-right:none;
-          border-bottom:1px solid var(--line)}
+
+  @media(max-width:820px){
+    .kacheln{grid-template-columns:1fr}
+    .pruef.an{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}
+    aside{display:none}
     .dg{grid-template-columns:1fr}
-    .side{border-left:none;border-top:1px solid var(--line)}
   }
 </style>
 </head>
-<body>
+<body data-modus="motorrad">
+
 <div class="topbar">
   <a href="index.html">← Zurück zu deutschmike.dev</a>
-  <span class="badge-demo">Demo mit anonymisierten Beispieldaten – keine echten Personen abgebildet</span>
-</div>
-<header>
-  <h1>Startnummern-Erkennung — Live-Demo</h1>
-  <div class="sub">Nachgebaute Oberfläche des echten Programms &middot; erfundene Beispieldaten, keine echten Rennfotos &middot; Testlauf ohne Internetverbindung</div>
-  <div class="stats" id="stats"></div>
-</header>
-
-<div class="wrap">
-  <aside>
-    <input class="find" id="find" placeholder="Nummer suchen, z. B. 499" inputmode="numeric">
-    <div class="lbl">Startnummern</div>
-    <div id="nums"></div>
-  </aside>
-  <main>
-    <div class="tabs" id="tabs"></div>
-    <div class="grid" id="grid"></div>
-    <div class="empty" id="empty" hidden>Keine Bilder in dieser Auswahl.</div>
-  </main>
+  <span class="badge-demo">Nachgebaute Oberfläche · anonymisierte Beispieldaten · keine echten Personen · läuft ohne Internet</span>
 </div>
 
-<footer>
-  Diese Live-Demo zeigt Oberfläche und Interaktion des echten Programms nachgebaut, mit
-  frei erfundenen Beispieldaten und generierten Platzhalter-Bildern statt echter Kundenfotos –
-  die echten Einsätze laufen mit echten Fotos komplett offline auf dem Rechner der Fotografin.
-  Mehr zum Projekt: <a href="index.html#projekte">zurück zur Projektübersicht</a>.
-</footer>
+<!-- ==================== HAUPTMENÜ ==================== -->
+<div class="screen an" id="menue">
+  <div class="mwrap">
+    <div class="gruss" id="gruss">Guten Tag</div>
+    <div class="mkopf">
+      <h1>Startnummern-Erkennung</h1>
+      <div class="sub">Fotos automatisch der richtigen Startnummer zuordnen — komplett offline auf dem eigenen Rechner.</div>
+      <div class="modus" id="modus" data-m="motorrad" role="radiogroup" aria-label="Modus wählen">
+        <i></i>
+        <button type="button" data-m="motorrad" class="on">🏍 Motorrad</button>
+        <button type="button" data-m="pferd">🏇 Pferde</button>
+      </div>
+      <span class="modushinweis" id="modushinweis">Motorrad- und Pferdeveranstaltungen sind getrennt. Sichtbar ist nur, was zum gewählten Modus gehört.</span>
+    </div>
+    <div class="kacheln" id="kacheln"></div>
+    <button class="weiter" id="kweiter"></button>
+    <div class="mfuss">
+      Diese Demo bildet die aktuelle Oberfläche nach (Stand Alpha&nbsp;10) — mit frei erfundenen
+      Beispieldaten und schematischen Platzhalter­grafiken statt echter Kundenfotos.
+      <a href="index.html#projekte">Zurück zur Projektübersicht</a>.
+    </div>
+  </div>
+</div>
 
+<!-- ==================== VERANSTALTUNG ==================== -->
+<div class="screen" id="event">
+  <header class="evh">
+    <div class="titel">
+      <h1 id="evname">Veranstaltung</h1>
+      <span class="sub" id="evsub"></span>
+      <div class="kopfbtns">
+        <button class="btn" onclick="zeige('menue')">☰ Hauptmenü</button>
+        <select id="evwahl" class="btn" aria-label="Veranstaltung wählen"></select>
+      </div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+  <div class="wrap">
+    <aside>
+      <input class="find" id="find" placeholder="Nummer, Name oder Dateiname suchen" inputmode="search">
+      <div class="fzeile"><span class="lbl" style="margin:0">Startnummern</span>
+        <select class="fsort" id="fsort"><option value="anzahl">nach Anzahl</option><option value="nummer">nach Nummer</option></select></div>
+      <div id="nums"></div>
+    </aside>
+    <main>
+      <div class="bar" id="bar"></div>
+      <div class="auswahlleiste" id="auswahlleiste" hidden>
+        <span id="auswahlzahl">0 ausgewählt</span>
+        <input class="eingabe" id="auswahlnummer" inputmode="numeric" placeholder="Nr.">
+        <button class="btn stark" id="auswahlok">Ausgewählten die Nummer geben</button>
+        <button class="btn" id="auswahlneu" title="Die ausgewählten Bilder noch einmal frisch durch die Erkennung schicken">Neu erkennen</button>
+        <button class="btn" id="auswahlende">Fertig</button>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="leer" id="leer" hidden>Keine Bilder in dieser Auswahl.</div>
+
+      <div class="fakten">
+        <h3>Kennzahlen aus echten Testläufen</h3>
+        <div class="sub" style="font-size:12.5px">Nicht aus dieser Demo, sondern an zwei echten Veranstaltungen gemessen.</div>
+        <div class="faktgrid">
+          <div class="fakt"><b>86 %</b><span>der Bilder automatisch mit Nummer (103 von 120)</span></div>
+          <div class="fakt"><b>98,7 %</b><span>der zugeordneten Nummern richtig</span></div>
+          <div class="fakt"><b>fehlerfrei</b><span>die Stufe „sicher“ war ohne einen falschen Treffer</span></div>
+          <div class="fakt"><b>1,74 s</b><span>je Bild statt 3,25 s nach der Tempo-Überarbeitung</span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== PRÜFEN ==================== -->
+<div class="pruef screen" id="pruef">
+  <div class="pv">
+    <div class="haupt">
+      <div class="buehne">
+        <div class="badge" id="pbadge"></div>
+        <img id="pimgGanz" alt="Schematisches Beispielbild – Gesamtaufnahme">
+        <img id="pimgCrop" alt="Schematischer Ausschnitt – auf die Nummerntafel zugeschnitten und vergrößert">
+      </div>
+      <div class="umschalt" id="umschalt" role="tablist" aria-label="Ansicht umschalten">
+        <i></i>
+        <button type="button" data-v="ganz" class="on">Gesamtbild</button>
+        <button type="button" data-v="crop">Zuschnitt &amp; vergrößert</button>
+      </div>
+      <div class="bunterschrift" id="bunterschrift"></div>
+    </div>
+    <div class="streifen">
+      <span class="zlabel">Nachbar­bilder</span>
+      <div id="pnachbarn" style="display:flex;gap:9px;height:100%"></div>
+    </div>
+  </div>
+  <div class="ps">
+    <button class="btn" style="align-self:flex-start;margin-bottom:12px" onclick="zeige('event')">← Zur Übersicht</button>
+    <h2 id="ptitel">Prüfen</h2>
+    <div class="sub" id="ppos"></div>
+    <div class="fortschritt"><i id="pbalken" style="width:0"></i></div>
+    <div class="kv"><span>Automatisch gelesen</span>
+      <div class="gross" id="pnummer">—</div>
+      <div class="sub" id="pgrund" style="margin-top:6px"></div>
+    </div>
+    <div class="kv"><span>Nummer eintragen oder bestätigen</span>
+      <input class="eingabe" id="peingabe" inputmode="numeric" placeholder="—">
+      <div class="chips" id="pchips"></div>
+    </div>
+    <label class="mit"><input type="checkbox" id="pmit" checked>
+      <span>Auf die ganze Anfahrt anwenden</span></label>
+    <div class="aktionen">
+      <button class="btn stark" id="pok">Übernehmen</button>
+      <button class="btn" id="pskip">Überspringen</button>
+    </div>
+    <div class="aktionen">
+      <button class="btn" id="pkein">Kein Fahrer erkennbar</button>
+      <button class="btn" id="pmeld" title="Die Nummer ist gut zu sehen, wurde aber nicht gefunden">Hätte erkannt werden müssen</button>
+    </div>
+    <div class="tasten">
+      <kbd>←</kbd> / <kbd>→</kbd> Ansicht umschalten &middot; <kbd>Enter</kbd> Übernehmen &middot; <kbd>Esc</kbd> zurück
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FAHRERKARTEI ==================== -->
+<div class="screen kartei" id="kartei">
+  <header class="evh">
+    <div class="titel">
+      <h1 id="karteititel">Fahrerkartei</h1>
+      <span class="sub">Kunden mit ihren Startnummern — Bilder über alle Rennen hinweg gesammelt.</span>
+      <div class="kopfbtns"><button class="btn" onclick="zeige('menue')">☰ Hauptmenü</button></div>
+    </div>
+  </header>
+  <div class="kwrap" id="karteiinhalt"></div>
+</div>
+
+<!-- ==================== Dialoge ==================== -->
 <dialog id="dlg">
   <div class="dg">
-    <img id="dimg" alt="">
-    <div class="side">
+    <img id="dimg" alt="Schematisches Beispielbild">
+    <div class="dside">
       <h2 id="dnum"></h2>
       <div class="st" id="dst"></div>
       <div class="kv"><span>Herkunft</span><div id="dh"></div></div>
       <div class="kv"><span>Begründung</span><div id="dd"></div></div>
       <div class="kv"><span>Datei</span><div id="df"></div></div>
       <div class="kv"><span>Aufnahmezeit</span><div id="dt"></div></div>
-      <button class="close" onclick="dlg.close()">Schließen</button>
+      <button class="close" onclick="document.getElementById('dlg').close()">Schließen</button>
     </div>
   </div>
 </dialog>
 
+<dialog id="feldlg">
+  <form method="dialog" class="fform">
+    <h2>Starterliste dieser Veranstaltung</h2>
+    <p class="sub" id="feltext" style="margin:2px 0 12px"></p>
+    <input class="find" id="felsuche" placeholder="Nummer oder Name suchen">
+    <div class="felliste" id="felliste"></div>
+    <div class="aktionen" style="margin-top:16px"><button class="btn stark" value="ok" style="flex:1">Schließen</button></div>
+  </form>
+</dialog>
+
+<div class="laufleiste" id="laufleiste" hidden>
+  <span class="ltitel">Neue Speicherkarte wird eingelesen <small id="lsub">Ordner „Karte-B“ · im Hintergrund</small></span>
+  <div class="lbalken"><i id="lbal"></i></div>
+  <span class="linfo" id="linfo">0 / 1000</span>
+  <button class="btn" id="lqueue">Warteschlange</button>
+  <button class="btn" id="labbruch">Abbrechen</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  Diese Live-Demo zeigt Oberfläche und Interaktion des echten Programms nachgebaut, mit frei
+  erfundenen Beispieldaten und schematischen Platzhalter­grafiken statt echter Kundenfotos —
+  die echten Einsätze laufen mit echten Fotos komplett offline auf dem Rechner der Fotografin.
+  Es läuft <b>keine</b> echte Bilderkennung im Browser; die Erkennungs-Ergebnisse sind
+  vordefinierte Beispielzustände. Mehr zum Projekt:
+  <a href="index.html#projekte">zurück zur Projektübersicht</a>.
+</footer>
+
 <script>
-const DATA = [{"f": "DEMO00001", "n": "299", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:06:07", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcwIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDAsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzUsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnMCkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00002", "n": "299", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 2 Bildern, Nummer dort eindeutig", "t": "10:06:44", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDQ3LDMyJSwyMCUpIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iaHNsKDgyLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzEpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00003", "n": "456", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:07:14", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDk0LDMyJSwyMCUpIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iaHNsKDEyOSwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2cyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00004", "n": "456", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:07:16", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDE0MSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxNzYsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnMykiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00005", "n": "456", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:07:39", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDE4OCwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgyMjMsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNCkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00006", "n": "456", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:07:47", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDIzNSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgyNzAsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNSkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00007", "n": "456", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:08:27", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDI4MiwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgzMTcsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNikiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00008", "n": "456", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:09:03", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDMyOSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg0LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzcpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00009", "n": "456", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:09:10", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDE2LDMyJSwyMCUpIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iaHNsKDUxLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzgpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00010", "n": "456", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:09:35", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc5IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iaHNsKDYzLDMyJSwyMCUpIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iaHNsKDk4LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzkpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00011", "n": "271", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 3 Bildern, Nummer dort eindeutig", "t": "10:09:55", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxMCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxMTAsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTQ1LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzEwKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00012", "n": "271", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:10:03", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNTcsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTkyLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzExKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00013", "n": "234", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:10:27", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxMiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMDQsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjM5LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzEyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00014", "n": "234", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:11:07", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxMyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyNTEsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjg2LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzEzKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00015", "n": "234", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:11:19", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxNCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyOTgsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzMzLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzE0KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00016", "n": "234", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 6 Bildern, Nummer dort eindeutig", "t": "10:11:41", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxNSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzNDUsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjAsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnMTUpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00017", "n": "499", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:12:03", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxNiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMiwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg2NywyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2cxNikiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00018", "n": "499", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:12:18", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxNyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg3OSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxMTQsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnMTcpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00019", "n": "499", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:12:29", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxOCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxMjYsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTYxLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzE4KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00020", "n": "499", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 5 Bildern, Nummer dort eindeutig", "t": "10:13:08", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcxOSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNzMsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjA4LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzE5KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00021", "n": "499", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 5 Bildern, Nummer dort eindeutig", "t": "10:13:33", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyMCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMjAsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjU1LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzIwKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00022", "n": "401", "s": "wahrscheinlich", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:13:38", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyNjcsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzAyLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzIxKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00023", "n": "401", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:14:07", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyMiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMTQsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzQ5LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzIyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00024", "n": "401", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:14:42", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyMyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxLDMyJSwyMCUpIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iaHNsKDM2LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzIzKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00025", "n": "401", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:14:44", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyNCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg0OCwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg4MywyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2cyNCkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00026", "n": "401", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:15:07", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyNSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg5NSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxMzAsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnMjUpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00027", "n": "401", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:15:09", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyNiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNDIsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTc3LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzI2KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00028", "n": "401", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:15:27", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyNyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxODksMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjI0LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzI3KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00029", "n": "401", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:16:01", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyOCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMzYsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjcxLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzI4KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00030", "n": "401", "s": "wahrscheinlich", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:16:22", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImcyOSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyODMsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzE4LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzI5KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00031", "n": "205", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 6 Bildern, Nummer dort eindeutig", "t": "10:16:34", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczMCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMzAsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woNSwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2czMCkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00032", "n": "205", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 6 Bildern, Nummer dort eindeutig", "t": "10:17:09", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNywzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg1MiwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2czMSkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00033", "n": "205", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 6 Bildern, Nummer dort eindeutig", "t": "10:17:42", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczMiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg2NCwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg5OSwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2czMikiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00034", "n": "205", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:18:03", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczMyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxMTEsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTQ2LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzMzKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00035", "n": "144", "s": "wahrscheinlich", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:18:09", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNTgsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTkzLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzM0KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00036", "n": "144", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 6 Bildern, Nummer dort eindeutig", "t": "10:18:19", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMDUsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjQwLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzM1KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00037", "n": "144", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 6 Bildern, Nummer dort eindeutig", "t": "10:18:31", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyNTIsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjg3LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzM2KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00038", "n": "312", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:19:07", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczNyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyOTksMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzM0LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzM3KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00039", "n": "312", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:19:28", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczOCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzNDYsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjEsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnMzgpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00040", "n": "312", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:19:53", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImczOSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMywzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg2OCwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2czOSkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00041", "n": "312", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:20:10", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0MCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg4MCwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxMTUsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNDApIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00042", "n": "312", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:20:49", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0MSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxMjcsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTYyLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzQxKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00043", "n": "312", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:21:05", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0MiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNzQsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjA5LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzQyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00044", "n": "312", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:21:11", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0MyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMjEsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjU2LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzQzKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00045", "n": "312", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 9 Bildern, Nummer dort eindeutig", "t": "10:21:26", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0NCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyNjgsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzAzLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzQ0KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00046", "n": "162", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:21:58", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0NSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMTUsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzUwLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzQ1KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00047", "n": "162", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:22:27", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0NiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyLDMyJSwyMCUpIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iaHNsKDM3LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzQ2KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00048", "n": "162", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 10 Bildern, Nummer dort eindeutig", "t": "10:22:35", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0NyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg0OSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg4NCwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2c0NykiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00049", "n": "162", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:22:43", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0OCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg5NiwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxMzEsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNDgpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00050", "n": "162", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:22:53", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc0OSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNDMsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTc4LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzQ5KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00051", "n": "162", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 10 Bildern, Nummer dort eindeutig", "t": "10:22:59", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1MCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxOTAsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjI1LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzUwKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00052", "n": "162", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 10 Bildern, Nummer dort eindeutig", "t": "10:23:36", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1MSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMzcsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjcyLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzUxKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00053", "n": "162", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 10 Bildern, Nummer dort eindeutig", "t": "10:24:12", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1MiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyODQsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzE5LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzUyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00054", "n": "162", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:24:29", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1MyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMzEsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woNiwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2c1MykiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00055", "n": "181", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 8 Bildern, Nummer dort eindeutig", "t": "10:24:41", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1NCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxOCwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg1MywyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2c1NCkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00056", "n": "181", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 8 Bildern, Nummer dort eindeutig", "t": "10:24:59", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1NSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg2NSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxMDAsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNTUpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00057", "n": "181", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 8 Bildern, Nummer dort eindeutig", "t": "10:25:19", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1NiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxMTIsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTQ3LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzU2KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00058", "n": "181", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:25:56", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1NyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNTksMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTk0LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzU3KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00059", "n": "181", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:26:16", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1OCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMDYsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjQxLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzU4KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00060", "n": "181", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 8 Bildern, Nummer dort eindeutig", "t": "10:26:38", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc1OSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyNTMsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjg4LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzU5KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00061", "n": "181", "s": "wahrscheinlich", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:27:12", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2MCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMDAsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzM1LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzYwKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00062", "n": "181", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:27:46", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2MSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzNDcsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjIsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNjEpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00063", "n": "377", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 8 Bildern, Nummer dort eindeutig", "t": "10:27:55", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2MiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzNCwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg2OSwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2c2MikiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00064", "n": "377", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 8 Bildern, Nummer dort eindeutig", "t": "10:28:34", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2MyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg4MSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxMTYsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNjMpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00065", "n": "377", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 8 Bildern, Nummer dort eindeutig", "t": "10:29:02", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2NCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxMjgsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTYzLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzY0KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00066", "n": "377", "s": "wahrscheinlich", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:29:24", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2NSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNzUsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjEwLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzY1KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00067", "n": "377", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:29:41", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2NiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMjIsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjU3LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzY2KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00068", "n": "101", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 11 Bildern, Nummer dort eindeutig", "t": "10:29:47", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2NyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyNjksMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzA0LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzY3KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00069", "n": "101", "s": "wahrscheinlich", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:30:25", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2OCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMTYsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzUxLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzY4KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00070", "n": "101", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 11 Bildern, Nummer dort eindeutig", "t": "10:30:59", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc2OSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzLDMyJSwyMCUpIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iaHNsKDM4LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzY5KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00071", "n": "101", "s": "wahrscheinlich", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:31:05", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3MCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg1MCwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg4NSwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2c3MCkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00072", "n": "101", "s": "wahrscheinlich", "h": "aus Serie übertragen", "d": "Anfahrt mit 11 Bildern, Nummer dort eindeutig", "t": "10:31:35", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3MSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg5NywzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxMzIsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNzEpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00073", "n": "101", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 11 Bildern, Nummer dort eindeutig", "t": "10:32:10", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3MiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNDQsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTc5LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzcyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00074", "n": "101", "s": "wahrscheinlich", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:32:31", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3MyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxOTEsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjI2LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzczKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00075", "n": "101", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:32:49", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3NCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMzgsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjczLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzc0KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00076", "n": "101", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:33:08", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3NSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyODUsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzIwLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzc1KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00077", "n": "118", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 7 Bildern, Nummer dort eindeutig", "t": "10:33:42", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3NiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMzIsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woNywyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2c3NikiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00078", "n": "118", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:33:47", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3NyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxOSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg1NCwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2c3NykiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00079", "n": "118", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 7 Bildern, Nummer dort eindeutig", "t": "10:33:51", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3OCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg2NiwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxMDEsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnNzgpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00080", "n": "118", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:34:09", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc3OSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxMTMsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTQ4LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzc5KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00081", "n": "118", "s": "sicher", "h": "direkt gelesen", "d": "in 3 von 3 Auflösungen übereinstimmend gelesen", "t": "10:34:46", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4MCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNjAsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTk1LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzgwKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00082", "n": "344", "s": "sicher", "h": "direkt gelesen", "d": "in 2 von 3 Auflösungen übereinstimmend gelesen", "t": "10:35:25", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4MSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyMDcsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjQyLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzgxKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00083", "n": "344", "s": "sicher", "h": "aus Serie übertragen", "d": "Anfahrt mit 4 Bildern, Nummer dort eindeutig", "t": "10:35:46", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4MiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgyNTQsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjg5LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzgyKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00084", "n": null, "s": "pruefen", "h": "offen", "d": "Nummer durch Schlamm verdeckt", "t": "10:35:58", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4MyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzMDEsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMzM2LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzgzKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00085", "n": null, "s": "pruefen", "h": "offen", "d": "Fahrer verdeckt Tafel im Bild", "t": "10:36:21", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4NCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzNDgsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjMsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnODQpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00086", "n": null, "s": "pruefen", "h": "offen", "d": "Fahrer verdeckt Tafel im Bild", "t": "10:36:46", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4NSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgzNSwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCg3MCwyOCUsMTElKSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiBmaWxsPSJ1cmwoI2c4NSkiLz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMjgpIiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjMzMCIgcj0iNDYiLz4KPGNpcmNsZSBjeD0iMjU1IiBjeT0iMzMwIiByPSI0NiIvPgo8cGF0aCBkPSJNMTMwIDMzMCBMMTkwIDI0NSBMMTUwIDIwMCBNMTkwIDI0NSBMMjU1IDMzMCBNMTkwIDI0NSBMMjEwIDE5NSBMMjQ1IDE5NSIvPgo8Y2lyY2xlIGN4PSIyMDUiIGN5PSIxNzAiIHI9IjIwIi8+CjwvZz4KPHRleHQgeD0iMTgwIiB5PSI0NjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IgogZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjM1KSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPkJFSVNQSUVMQklMRDwvdGV4dD4KPC9zdmc+"}, {"f": "DEMO00087", "n": null, "s": "pruefen", "h": "offen", "d": "Nummer durch Schlamm verdeckt", "t": "10:37:02", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4NiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCg4MiwzMiUsMjAlKSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImhzbCgxMTcsMjglLDExJSkiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMzYwIiBoZWlnaHQ9IjU0MCIgZmlsbD0idXJsKCNnODYpIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8Y2lyY2xlIGN4PSIxMzAiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxjaXJjbGUgY3g9IjI1NSIgY3k9IjMzMCIgcj0iNDYiLz4KPHBhdGggZD0iTTEzMCAzMzAgTDE5MCAyNDUgTDE1MCAyMDAgTTE5MCAyNDUgTDI1NSAzMzAgTTE5MCAyNDUgTDIxMCAxOTUgTDI0NSAxOTUiLz4KPGNpcmNsZSBjeD0iMjA1IiBjeT0iMTcwIiByPSIyMCIvPgo8L2c+Cjx0ZXh0IHg9IjE4MCIgeT0iNDY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNiIKIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zNSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSIyIj5CRUlTUElFTEJJTEQ8L3RleHQ+Cjwvc3ZnPg=="}, {"f": "DEMO00088", "n": null, "s": "pruefen", "h": "offen", "d": "Fahrer verdeckt Tafel im Bild", "t": "10:38:01", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4NyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxMjksMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMTY0LDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzg3KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}, {"f": "DEMO00089", "n": null, "s": "pruefen", "h": "offen", "d": "Fahrer verdeckt Tafel im Bild", "t": "10:38:37", "img": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNjAiIGhlaWdodD0iNTQwIiB2aWV3Qm94PSIwIDAgMzYwIDU0MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Imc4OCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgo8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9ImhzbCgxNzYsMzIlLDIwJSkiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSJoc2woMjExLDI4JSwxMSUpIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjM2MCIgaGVpZ2h0PSI1NDAiIGZpbGw9InVybCgjZzg4KSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPGNpcmNsZSBjeD0iMTMwIiBjeT0iMzMwIiByPSI0NiIvPgo8Y2lyY2xlIGN4PSIyNTUiIGN5PSIzMzAiIHI9IjQ2Ii8+CjxwYXRoIGQ9Ik0xMzAgMzMwIEwxOTAgMjQ1IEwxNTAgMjAwIE0xOTAgMjQ1IEwyNTUgMzMwIE0xOTAgMjQ1IEwyMTAgMTk1IEwyNDUgMTk1Ii8+CjxjaXJjbGUgY3g9IjIwNSIgY3k9IjE3MCIgcj0iMjAiLz4KPC9nPgo8dGV4dCB4PSIxODAiIHk9IjQ2NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjYiCiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMzUpIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iMiI+QkVJU1BJRUxCSUxEPC90ZXh0Pgo8L3N2Zz4="}];
+/* =====================================================================
+   Live-Demo Startnummern-Erkennung — reines Frontend, keine Netzaufrufe.
+   Bilder werden als schematische SVGs zur Laufzeit erzeugt (kein Foto).
+   ===================================================================== */
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const uri = s => 'data:image/svg+xml;utf8,' + encodeURIComponent(s.replace(/\s+/g,' ').trim());
 
-const COL = {sicher:'var(--sicher)', wahrscheinlich:'var(--wahr)', pruefen:'var(--pruef)'};
-const NAME = {sicher:'Sicher erkannt', wahrscheinlich:'Bestätigung nötig', pruefen:'Manuelle Prüfung'};
-let fStufe = 'alle', fNum = null;
-
-const counts = s => DATA.filter(d => d.s === s).length;
-
-document.getElementById('stats').innerHTML = [
-  ['Bilder gesamt', DATA.length, 'var(--text)'],
-  ['Sicher erkannt', counts('sicher'), 'var(--sicher)'],
-  ['Bestätigung nötig', counts('wahrscheinlich'), 'var(--wahr)'],
-  ['Manuelle Prüfung', counts('pruefen'), 'var(--pruef)'],
-  ['Fahrer gefunden', new Set(DATA.filter(d=>d.n).map(d=>d.n)).size, 'var(--accent)']
-].map(([l,v,c]) => `<div class="stat"><b style="color:${c}">${v}</b><span>${l}</span></div>`).join('');
-
-document.getElementById('tabs').innerHTML =
-  [['alle','Alle'],['sicher',NAME.sicher],['wahrscheinlich',NAME.wahrscheinlich],['pruefen',NAME.pruefen]]
-  .map(([k,l]) => `<div class="tab" data-k="${k}">${
-     k==='alle' ? '' : `<span class="dot" style="background:${COL[k]}"></span>`}${l}</div>`).join('');
-document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
-  fStufe = t.dataset.k; render();
-});
-
-function riders(){
-  const m = new Map();
-  DATA.forEach(d => { if(d.n) m.set(d.n, (m.get(d.n)||0)+1); });
-  return [...m.entries()].sort((a,b) => b[1]-a[1] || (+a[0])-(+b[0]));
+/* ---------- Schematische Platzhalterbilder ---------- */
+function szene({hue=210, horse=false, plate=null, faint=false, boxes=false}){
+  const W=360,H=540;
+  const g1=`hsl(${hue},30%,22%)`, g2=`hsl(${(hue+38)%360},26%,12%)`;
+  const st='rgba(255,255,255,0.30)';
+  const koerper = horse ? `
+      <g fill="none" stroke="${st}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M64 360 C 96 300 160 292 210 306 C 246 316 276 306 296 284"/>
+        <path d="M296 284 C 312 300 314 322 304 344 L 320 372 L 344 372"/>
+        <path d="M100 360 L 96 452 M 138 366 L 134 454 M 214 362 L 218 452 M 250 356 L 256 450"/>
+        <path d="M64 360 C 52 372 50 390 60 404"/>
+        <circle cx="150" cy="248" r="20"/>
+        <path d="M150 268 L 162 314 M 150 282 L 118 300 M 150 282 L 188 300"/>
+      </g>` : `
+      <g fill="none" stroke="${st}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="120" cy="360" r="48"/>
+        <circle cx="262" cy="360" r="48"/>
+        <path d="M120 360 L188 262 L150 214 M188 262 L262 360 M188 262 L214 206 L252 206"/>
+        <circle cx="205" cy="180" r="21"/>
+        <path d="M205 201 L214 250 M205 214 L172 232 M205 214 L242 232"/>
+      </g>`;
+  let board='';
+  if(plate!==null){
+    const px = horse?150:262, py = horse?332:250;
+    const fs = String(plate).length>=3?24:30;
+    const flas = faint?0.12:0.92, ftxt = faint?0.16:0.92;
+    board = `<g transform="translate(${px},${py})">
+        <rect x="-30" y="-23" width="60" height="46" rx="7" fill="rgba(238,236,228,${flas})" stroke="rgba(0,0,0,0.25)"/>
+        <text x="0" y="9" font-family="Arial,Helvetica,sans-serif" font-size="${fs}" font-weight="700"
+              fill="rgba(20,20,20,${ftxt})" text-anchor="middle">${plate}</text>
+      </g>`;
+  }
+  let box='';
+  if(boxes){
+    box = `<rect x="66" y="150" width="236" height="272" fill="none" stroke="#5b9cff" stroke-width="3" stroke-dasharray="9 6" rx="9"/>
+           <rect x="228" y="216" width="70" height="66" fill="none" stroke="#3ddc97" stroke-width="3" stroke-dasharray="6 5" rx="6"/>`;
+  }
+  const wm = `<text x="180" y="516" font-family="-apple-system,Helvetica,Arial,sans-serif" font-size="14"
+       fill="rgba(255,255,255,0.26)" text-anchor="middle" letter-spacing="2">BEISPIELBILD · SCHEMATISCH</text>`;
+  return uri(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${g1}"/><stop offset="1" stop-color="${g2}"/></linearGradient></defs>
+    <rect width="${W}" height="${H}" fill="url(#lg)"/>${koerper}${board}${box}${wm}</svg>`);
 }
 
-function sidebar(q=''){
-  const rows = riders().filter(([n]) => n.startsWith(q));
-  document.getElementById('nums').innerHTML =
-    `<div class="row ${fNum===null?'on':''}" data-n=""><span class="num">Alle Fahrer</span>
-      <span class="cnt">${DATA.length}</span></div>` +
-    rows.map(([n,c]) => `<div class="row ${fNum===n?'on':''}" data-n="${n}">
-      <span class="num">${n}</span><span class="cnt">${c}</span></div>`).join('');
-  document.querySelectorAll('.row').forEach(r => r.onclick = () => {
-    fNum = r.dataset.n || null; sidebar(document.getElementById('find').value.trim()); render();
+/* Nahaufnahme der Tafel — der Kniff: eng zugeschnitten wird die Zahl lesbar. */
+function ausschnitt(plate, hue=150){
+  const W=360,H=360;
+  return uri(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <rect width="${W}" height="${H}" fill="hsl(${hue},18%,14%)"/>
+    <g stroke="rgba(255,255,255,0.14)" stroke-width="12" fill="none" stroke-linecap="round">
+      <path d="M30 320 L110 120"/><path d="M330 320 L250 120"/><path d="M70 300 L300 300"/>
+    </g>
+    <rect x="78" y="92" width="204" height="162" rx="16" fill="#ece9df" stroke="rgba(0,0,0,.35)" stroke-width="4"/>
+    <text x="180" y="212" font-family="Arial,Helvetica,sans-serif" font-size="118" font-weight="800"
+          fill="#16181c" text-anchor="middle">${plate}</text>
+    <text x="180" y="340" font-family="-apple-system,Helvetica,Arial,sans-serif" font-size="14"
+          fill="rgba(255,255,255,0.30)" text-anchor="middle" letter-spacing="2">AUSSCHNITT · 2,0-FACH</text>
+  </svg>`);
+}
+
+/* ---------- Beispieldaten ---------- */
+const NAME = {sicher:'Sicher erkannt', wahr:'Bestätigung nötig', pruef:'Manuelle Prüfung', ohne:'Ohne Nummer', roh:'Noch nicht erkannt'};
+const COL  = {sicher:'var(--sicher)', wahr:'var(--wahr)', pruef:'var(--pruef)', ohne:'var(--faint)', roh:'var(--faint)'};
+
+let bid=0;
+function bild(o){ return {f:'DEMO'+String(++bid).padStart(5,'0'), video:false, gast:false, ...o}; }
+
+// Ein Motorrad-Beispielrennen. hue steuert nur die Farbe des Platzhalters.
+const EV_MOTO = {
+  id:'e1', name:'Enduro Beispielberg', datum:'13.09.2026', modus:'motorrad',
+  bilder:[
+    bild({n:'299', s:'sicher', hue:210, h:'direkt gelesen', d:'Gesamtbild und Motorradkasten lesen dieselbe Zahl', t:'10:06:07'}),
+    bild({n:'299', s:'sicher', hue:214, h:'aus der Anfahrt übertragen', d:'Anfahrt eindeutig, Farbsignatur passt (über 55 %)', t:'10:06:44', video:true}),
+    bild({n:'299', s:'sicher', hue:206, h:'direkt gelesen', d:'in 2 von 3 Auflösungen übereinstimmend gelesen', t:'10:07:12'}),
+    bild({n:'499', s:'sicher', hue:150, h:'direkt gelesen', d:'Motorradkasten 2,0-fach vergrößert – 100 % Sicherheit', t:'10:14:02'}),
+    bild({n:'499', s:'sicher', hue:154, h:'direkt gelesen', d:'Gesamtbild und Motorradkasten übereinstimmend', t:'10:14:33'}),
+    bild({n:'499', s:'wahr',   hue:158, h:'nur ein Verfahren', d:'Nur der Motorradkasten sieht die Zahl – eine Stufe tiefer statt verworfen', t:'10:15:01', chips:['499','49','490']}),
+    bild({n:'7',   s:'sicher', hue:30,  h:'direkt gelesen', d:'einstellige Nummer, beide Verfahren einig', t:'10:22:49'}),
+    bild({n:'7',   s:'sicher', hue:26,  h:'aus der Anfahrt übertragen', d:'Vorgänger 0,6 s davor, gleiche Farbsignatur', t:'10:23:05'}),
+    bild({n:'42',  s:'sicher', hue:280, h:'direkt gelesen', d:'Rückennummer und Motorradkasten einig', t:'10:31:18'}),
+    bild({n:'42',  s:'sicher', hue:284, h:'direkt gelesen', d:'in 3 von 3 Auflösungen gelesen', t:'10:31:52'}),
+    bild({n:'111', s:'sicher', hue:96,  h:'direkt gelesen', d:'klar sichtbare Tafel, hohe Sicherheit', t:'10:39:20'}),
+    bild({n:'111', s:'sicher', hue:100, h:'aus der Anfahrt übertragen', d:'Serie mit 3 Bildern, Nummer dort eindeutig', t:'10:39:41', video:true}),
+    bild({n:'111', s:'sicher', hue:92,  h:'direkt gelesen', d:'Motorradkasten 2,0-fach – eindeutig', t:'10:40:03'}),
+    bild({n:'308', s:'wahr',   hue:340, h:'Vorschlag aus dem Teilnehmerfeld', d:'„300EXC“ am Motorrad gelesen – 308 steht in der Starterliste, keine stille Autokorrektur', t:'10:48:10', chips:['308','300','380']}),
+    // Prüf-Fälle
+    bild({n:null, s:'pruef', hue:220, h:'—', gelesen:'—', plate:'111',
+          d:'Vorderrad verdeckt die Tafel – Nachbarbilder zeigen 111', t:'10:41:25',
+          grund:'Sprungfoto: Tafel im Bild verdeckt. Die Aufnahmen davor und danach tragen die 111.',
+          chips:['111','11','118'], neighbors:[{n:'111',hue:96},{n:'111',hue:100}], reveal:'111'}),
+    bild({n:null, s:'pruef', hue:12, h:'—', gelesen:'300', plate:'308',
+          d:'„300EXC“ als 300 gelesen – 300 ist nicht im Teilnehmerfeld', t:'10:48:44',
+          grund:'Am Motorrad steht „300EXC“ (ein Modellname). Als Startnummer 300 gelesen, die es nicht gibt. Automatisch korrigieren würde die Bilder einem echten, aber unbeteiligten Fahrer geben.',
+          chips:['308','300','380'], neighbors:[{n:'308',hue:340}], reveal:'308'}),
+    bild({n:null, s:'pruef', hue:248, h:'—', gelesen:'921', plate:'—',
+          d:'Nur über Fahrerprofil vorgeschlagen – Grundähnlichkeit zu niedrig', t:'10:52:09',
+          grund:'Die 921 kam nur aus dem Vergleich mit gespeicherten Profilen. Der richtige Fahrer ist womöglich gar nicht in der Liste – dann gewinnt trotzdem irgendwer. Deshalb in die Prüfung.',
+          chips:['921','21','912'], neighbors:[], reveal:'—'}),
+    bild({n:null, s:'pruef', hue:190, h:'—', gelesen:'—', plate:'—',
+          d:'Weder Motorrad noch Person gefunden – Stimmungsbild', t:'10:55:30',
+          grund:'Der Objekterkenner hat keine Maschine und keinen Fahrer gefunden. Vermutlich ein Landschafts- oder Fahrerlagerbild. Es geht ohne teures Nachlesen in die Prüfung.',
+          chips:[], neighbors:[], reveal:'—'}),
+    // Ohne Nummer / noch nicht verarbeitet
+    bild({n:null, s:'ohne', hue:50,  h:'—', d:'Seitenansicht, keine Tafel im Bild', t:'11:02:14'}),
+    bild({n:null, s:'ohne', hue:56,  h:'—', d:'Tafel weggedreht, Anfahrt nicht eindeutig', t:'11:02:51'}),
+    bild({n:null, s:'roh',  hue:210, h:'—', d:'wird beim nächsten Durchlauf gelesen', t:'11:10:02'}),
+    bild({n:null, s:'roh',  hue:150, h:'—', d:'wird beim nächsten Durchlauf gelesen', t:'11:10:20'}),
+  ]
+};
+// Gastfahrer-Beispiel (Marker steht VOR der Nummer in der Starterliste)
+EV_MOTO.bilder.splice(13,0, bild({n:'901', s:'sicher', hue:175, gast:true, h:'direkt gelesen',
+    d:'Gastfahrer – in der Starterliste als „GAST 901“ geführt', t:'10:46:02'}));
+
+const EV_MOTO2 = {id:'e2', name:'Cross-Cup Mustertal', datum:'02.08.2026', modus:'motorrad', bilder:[]};
+const EV_MOTO3 = {id:'e3', name:'Sommerlauf Demoheide', datum:'21.06.2026', modus:'motorrad', bilder:[]};
+
+const EV_PFERD = {
+  id:'p1', name:'Springturnier Beispielhof', datum:'30.08.2026', modus:'pferd',
+  bilder:[
+    bild({n:'5',  s:'sicher', hue:200, horse:true, h:'direkt gelesen', d:'Nummerndecke klar lesbar', t:'13:05:11'}),
+    bild({n:'5',  s:'sicher', hue:204, horse:true, h:'aus der Anfahrt übertragen', d:'Serie eindeutig', t:'13:05:40'}),
+    bild({n:'12', s:'sicher', hue:120, horse:true, h:'direkt gelesen', d:'beide Verfahren einig', t:'13:12:22'}),
+    bild({n:'12', s:'wahr',   hue:124, horse:true, h:'nur ein Verfahren', d:'nur die Decke gelesen', t:'13:12:48', chips:['12','2','112']}),
+    bild({n:null, s:'pruef',  hue:20,  horse:true, h:'—', gelesen:'—', plate:'7',
+          d:'Decke im Sprung verknickt – Nachbarn zeigen 7', t:'13:18:03',
+          grund:'Beispiel für den Pferde-Modus: dieselbe Erkennungskette, das Pferd übernimmt die Rolle der Maschine.',
+          chips:['7','1','17'], neighbors:[{n:'7',hue:200}], reveal:'7'}),
+    bild({n:null, s:'roh',    hue:150, horse:true, h:'—', d:'wird beim nächsten Durchlauf gelesen', t:'13:20:00'}),
+  ]
+};
+
+const STORE = {
+  motorrad: [EV_MOTO, EV_MOTO2, EV_MOTO3],
+  pferd:    [EV_PFERD]
+};
+
+// Starterliste (mit Gastfahrern) – nur Nummern, keine echten Namen
+const FELD = {
+  e1: [
+    {n:7},{n:12},{n:42},{n:99},{n:111},{n:207},{n:299},{n:308},{n:411},{n:499},{n:512},
+    {n:901,gast:true},{n:902,gast:true},{n:915,gast:true},{n:921,gast:true}
+  ],
+  p1: [{n:1},{n:5},{n:7},{n:12},{n:18},{n:24}]
+};
+
+/* ---------- Zustand ---------- */
+let MODUS='motorrad', EVENT=EV_MOTO, STUFE=null, NUMMER=null, SUCHE='';
+let AUSWAHL=false; const gewaehlt=new Set();
+let PRUEFLISTE=[], PRUEFPOS=0, PANSICHT='ganz';
+
+/* ---------- Screen-Routing ---------- */
+function zeige(id){
+  $$('.screen').forEach(s=>s.classList.toggle('an', s.id===id));
+  if(id==='pruef') document.documentElement.scrollTop=0;
+  window.scrollTo(0,0);
+}
+
+/* ---------- Bild-URL je Datensatz ---------- */
+function imgFor(d, opts={}){
+  return szene({hue:d.hue, horse:d.horse, plate:opts.plate!==undefined?opts.plate:(d.n||null),
+                faint:opts.faint, boxes:opts.boxes});
+}
+
+/* ---------- Hauptmenü ---------- */
+function begruessung(){
+  const h=new Date().getHours();
+  return h>=5&&h<9 ? 'Guten Morgen' : h>=9&&h<18 ? 'Guten Tag' : 'Guten Abend';
+}
+function menueRender(){
+  $('#gruss').textContent = begruessung();
+  const liste = STORE[MODUS];
+  const tier = MODUS==='pferd';
+  $('#karteititel').textContent = 'Fahrerkartei';
+  const kacheln = [
+    {c:'kachel stark breit', sym:'＋', t:'Neue Veranstaltung',
+     z:'Bilderordner wählen, Startliste zuordnen und die Startnummern lesen lassen. Die Originale werden dabei nur gelesen.',
+     go:()=>toast('In der Demo nicht hinterlegt – rechts geht es zur fertigen Beispiel-Veranstaltung.')},
+    {c:'kachel', sym:'📁', t:'Meine Veranstaltungen', n:liste.length,
+     z:'Alles, was schon verarbeitet wurde. Bleibt dauerhaft erhalten, auch nach Wochen.',
+     go:()=>{ EVENT=liste[0]; eventRender(); zeige('event'); }},
+    {c:'kachel', sym:'📋', t:'Startlisten', n:MODUS==='pferd'?1:3,
+     z:'Ihre Start- und Ergebnislisten als PDF. Einmal hinterlegt, bei jeder Veranstaltung auswählbar.',
+     go:()=>toast('Startlisten werden als PDF eingelesen – hier als Beispiel hinterlegt. In der Veranstaltung: „Starterliste ansehen“.')},
+    {c:'kachel', sym:'👤', t:'Fahrerkartei', n:MODUS==='pferd'?2:4,
+     z:'Ihre Kunden mit ihren Startnummern. Sammelt die Bilder eines Fahrers über alle Rennen hinweg.',
+     go:()=>{ karteiRender(); zeige('kartei'); }},
+    {c:'kachel', sym:'⚙', t:'Einstellungen',
+     z:'Speicherort, Tempo, Grafikkarte (DirectML), Freischaltung.',
+     go:()=>toast('Einstellungen: Datenordner, Tempo/Threads, Grafikkarte zuschalten, Berichtsversand, Freischaltung. In der Demo ohne Funktion.')},
+    {c:'kachel breit', sym:'💬', t:'Wünsche & Verbesserungen',
+     z:'Was fehlt, was stört, was wäre schöner? Ihre Beschreibung geht mit dem nächsten Bericht an die Entwicklung.',
+     go:()=>toast('Wünsche gehen im Wortlaut mit jedem Bericht an die Entwicklung – standardmäßig ohne dass Bilder oder Namen mitgeschickt werden.')},
+  ];
+  $('#kacheln').innerHTML = kacheln.map((k,i)=>`
+    <button class="${k.c}" data-i="${i}">
+      <div class="sym">${k.sym}</div>
+      <div class="kt">${k.t}</div>
+      <div class="kz">${k.z}</div>
+      ${k.n!==undefined?`<div class="kn">${k.n}</div>`:''}
+    </button>`).join('');
+  $$('#kacheln [data-i]').forEach(b=>b.onclick=()=>kacheln[b.dataset.i].go());
+  const w=$('#kweiter');
+  w.innerHTML = `Zuletzt bearbeitet: <b>${liste[0].name}</b> · ${liste[0].datum} — weiterarbeiten →`;
+  w.onclick=()=>{ EVENT=liste[0]; eventRender(); zeige('event'); };
+}
+
+/* ---------- Modus-Umschalter ---------- */
+$('#modus').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  MODUS=b.dataset.m;
+  document.body.dataset.modus=MODUS;
+  $('#modus').dataset.m=MODUS;
+  $('#modus').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.m===MODUS));
+  $('#modushinweis').textContent = MODUS==='pferd'
+    ? 'Pferde-Modus: eigene Veranstaltungen, Startlisten und Kartei. Das Pferd übernimmt die Rolle der Maschine.'
+    : 'Motorrad- und Pferdeveranstaltungen sind getrennt. Sichtbar ist nur, was zum gewählten Modus gehört.';
+  menueRender();
+});
+
+/* ---------- Veranstaltung ---------- */
+function zaehl(s){ return EVENT.bilder.filter(d=>d.s===s).length; }
+function eventRender(){
+  $('#evname').textContent = EVENT.name;
+  $('#evsub').textContent  = EVENT.datum + ' · ' + EVENT.bilder.length + ' Bilder';
+  const sel=$('#evwahl');
+  sel.innerHTML = STORE[MODUS].map(e=>`<option value="${e.id}"${e.id===EVENT.id?' selected':''}>${e.name}</option>`).join('');
+  sel.onchange=()=>{ EVENT=STORE[MODUS].find(e=>e.id===sel.value); STUFE=null;NUMMER=null;SUCHE='';$('#find').value='';reset(); };
+  reset();
+}
+function reset(){ statsRender(); barRender(); sidebar(); gridRender(); }
+
+function statsRender(){
+  const fahrer = new Set(EVENT.bilder.filter(d=>d.n).map(d=>d.n)).size;
+  const tiles = [
+    ['Bilder gesamt', EVENT.bilder.length, 'var(--text)', null],
+    ['Sicher erkannt', zaehl('sicher'), COL.sicher, 'sicher'],
+    ['Bestätigung nötig', zaehl('wahr'), COL.wahr, 'wahr'],
+    ['Manuelle Prüfung', zaehl('pruef'), COL.pruef, 'pruef'],
+    ['Ohne Nummer', zaehl('ohne'), COL.ohne, 'ohne'],
+    ['Noch nicht erkannt', zaehl('roh'), COL.roh, 'roh'],
+    ['Fahrer gefunden', fahrer, 'var(--accent)', null],
+  ];
+  $('#stats').innerHTML = tiles.map(([l,v,c,st])=>
+    `<button class="stat" data-st="${st??''}"><b style="color:${c}">${v}</b><span>${l}</span></button>`).join('');
+  $$('#stats .stat').forEach(b=>b.onclick=()=>{ STUFE=b.dataset.st||null; NUMMER=null; barRender(); gridRender(); });
+}
+
+function barRender(){
+  const chips=[['','Alle'],['sicher',NAME.sicher],['wahr',NAME.wahr],['pruef',NAME.pruef],['ohne','Ohne Nummer'],['roh','Noch nicht erkannt']];
+  let html = chips.map(([k,l])=>`<button class="btn ${STUFE===(k||null)?'on':''}" data-s="${k}">${
+     k?`<span class="dot" style="background:${COL[k]}"></span>`:''}${l}</button>`).join('');
+  html += `<span class="bartrenn"></span>`;
+  html += `<button class="btn stark" id="bpruef">▶ Prüfen starten (${zaehl('pruef')+zaehl('wahr')})</button>`;
+  html += `<button class="btn" id="bneusort" title="Alle Bilder anhand der Korrekturen neu zuordnen – ohne neu einzulesen">Neu sortieren</button>`;
+  html += `<button class="btn" id="bmehr" title="Mehrere Bilder markieren und in einem Schritt derselben Startnummer zuordnen">Mehrere zuordnen</button>`;
+  html += `<button class="btn" id="bfeld" title="Die hinterlegte Starterliste ansehen">Starterliste ansehen (${(FELD[EVENT.id]||[]).length})</button>`;
+  html += `<button class="btn" id="bsort" title="In Fahrerordner sortieren – Kopien oder Originale einsortieren">In Fahrerordner sortieren</button>`;
+  html += `<button class="btn" id="bexport" title="Die ganze Veranstaltung noch einmal kopieren – nach Startnummer oder Klasse">Veranstaltung exportieren</button>`;
+  html += `<button class="btn" id="baddord" title="Einen weiteren Ordner mit Bildern oder Videos hinzufügen">+ Ordner hinzufügen</button>`;
+  html += `<button class="btn" id="blightroom">Stichwörter für Lightroom</button>`;
+  html += `<button class="btn" id="bwartung" title="Platz freigeben und Fehler zurücksetzen">Wartung</button>`;
+  $('#bar').innerHTML = html;
+  $$('#bar .btn[data-s]').forEach(b=>b.onclick=()=>{ STUFE=b.dataset.s||null; NUMMER=null; barRender(); gridRender(); });
+  $('#bpruef').onclick   = pruefStart;
+  $('#bmehr').onclick    = ()=>auswahlModus(true);
+  $('#bfeld').onclick    = starterliste;
+  $('#bneusort').onclick = ()=>toast('„Neu sortieren“ ordnet alle Bilder anhand Ihrer Handkorrekturen neu zu – ohne neu einzulesen. Von Hand gesetzte Bilder bleiben unangetastet.');
+  $('#bsort').onclick    = ()=>toast('Sortieren: Kopien anlegen (Originale bleiben) oder die Bilder selbst in Fahrerordner verschieben – ausdrücklich bestätigt, nie überschrieben, vollständig rücknehmbar.');
+  $('#bexport').onclick  = ()=>toast('Export: die ganze Veranstaltung noch einmal kopieren – je Startnummer, nach Klasse gruppiert oder alles in einen Ordner. Kopiert, nie verschoben.');
+  $('#baddord').onclick  = simImport;
+  $('#blightroom').onclick=()=>toast('Zu jeder RAW-Datei wird eine XMP-Datei mit den Stichwörtern „Startnummer 499“ und dem Fahrernamen geschrieben. Die RAW-Datei bleibt Byte für Byte unverändert.');
+  $('#bwartung').onclick = ()=>toast('Wartung gibt Platz frei und setzt Fehler zurück.');
+}
+
+function riders(){
+  const m=new Map();
+  EVENT.bilder.forEach(d=>{ if(d.n) m.set(d.n,(m.get(d.n)||0)+1); });
+  const arr=[...m.entries()];
+  if($('#fsort').value==='nummer') arr.sort((a,b)=>(+a[0])-(+b[0]));
+  else arr.sort((a,b)=>b[1]-a[1] || (+a[0])-(+b[0]));
+  return arr;
+}
+function sidebar(){
+  const q=SUCHE.trim();
+  const rows=riders().filter(([n])=>!q||n.startsWith(q));
+  const gastset=new Set(EVENT.bilder.filter(d=>d.gast).map(d=>d.n));
+  $('#nums').innerHTML =
+    `<div class="row ${NUMMER===null?'on':''}" data-n=""><span class="nm">Alle Fahrer</span>
+       <span class="cnt">${EVENT.bilder.length}</span></div>` +
+    rows.map(([n,c])=>`<div class="row ${NUMMER===n?'on':''}" data-n="${n}">
+       <span><span class="nm">${n}</span>${gastset.has(n)?'<span class="who">Gastfahrer</span>':''}</span>
+       <span class="cnt">${c}</span></div>`).join('');
+  $$('#nums .row').forEach(r=>r.onclick=()=>{ NUMMER=r.dataset.n||null; STUFE=null; sidebar(); gridRender(); });
+}
+$('#fsort').onchange=sidebar;
+$('#find').oninput=e=>{ SUCHE=e.target.value; sidebar(); gridRender(); };
+
+function sichtbar(){
+  const q=SUCHE.trim().toLowerCase();
+  return EVENT.bilder.filter(d=>
+    (STUFE===null || d.s===STUFE) &&
+    (NUMMER===null || d.n===NUMMER) &&
+    (!q || (d.n&&d.n.includes(q)) || d.f.toLowerCase().includes(q)));
+}
+function gridRender(){
+  const list=sichtbar();
+  $('#leer').hidden = list.length>0;
+  $('#grid').innerHTML = list.map(d=>{
+    const idx=EVENT.bilder.indexOf(d);
+    const offenText = d.s==='roh' ? 'noch offen' : d.s==='pruef' ? 'prüfen' : 'ohne Nr.';
+    const tag = d.n
+      ? `<div class="tag" style="background:${COL[d.s]}">${d.n}</div>`
+      : `<div class="tag offen">${offenText}</div>`;
+    return `<div class="card ${gewaehlt.has(idx)?'gewaehlt':''}" data-i="${idx}">
+      <div class="haken">✓</div>
+      <div class="ph"><img loading="lazy" src="${imgFor(d)}" alt="Schematisches Beispielbild">
+        ${tag}${d.video?'<div class="vidmark">▶ Video</div>':''}${d.gast?'<div class="gastmark">GAST</div>':''}</div>
+      <div class="meta"><span>${d.f}</span><span>${d.t}</span></div>
+    </div>`;
+  }).join('');
+  $$('#grid .card').forEach(c=>c.onclick=()=>{
+    const d=EVENT.bilder[+c.dataset.i];
+    if(AUSWAHL){ toggleWahl(+c.dataset.i); } else openCard(d);
   });
 }
 
-function render(){
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.k===fStufe));
-  const list = DATA.filter(d =>
-    (fStufe==='alle' || d.s===fStufe) && (fNum===null || d.n===fNum));
-  document.getElementById('empty').hidden = list.length > 0;
-  document.getElementById('grid').innerHTML = list.map((d,i) => `
-    <div class="card" data-i="${DATA.indexOf(d)}">
-      <div class="ph"><img loading="lazy" src="${d.img}" alt="">
-        ${d.n ? `<div class="tag" style="background:${COL[d.s]}">${d.n}</div>` : ''}</div>
-      <div class="meta"><span class="fn">${d.f}</span><span>${d.t}</span></div>
-    </div>`).join('');
-  document.querySelectorAll('.card').forEach(c => c.onclick = () => openCard(DATA[+c.dataset.i]));
+/* ---------- Mehrfachauswahl ---------- */
+function auswahlModus(on){
+  AUSWAHL=on; document.body.classList.toggle('auswahl',on);
+  $('#auswahlleiste').hidden=!on;
+  if(!on){ gewaehlt.clear(); }
+  gridRender(); auswahlZahl();
 }
+function toggleWahl(i){ gewaehlt.has(i)?gewaehlt.delete(i):gewaehlt.add(i); gridRender(); auswahlZahl(); }
+function auswahlZahl(){ $('#auswahlzahl').textContent = gewaehlt.size+' ausgewählt'; }
+$('#auswahlende').onclick=()=>auswahlModus(false);
+$('#auswahlok').onclick=()=>{
+  const nr=$('#auswahlnummer').value.trim();
+  if(!gewaehlt.size) return toast('Erst Bilder markieren.');
+  if(!nr) return toast('Nummer eintragen.');
+  gewaehlt.forEach(i=>{ const d=EVENT.bilder[i]; d.n=nr; d.s='sicher'; d.h='von Hand gesetzt'; d.d='in der Sichtprüfung zugeordnet'; });
+  toast(gewaehlt.size+' Bildern die Nummer '+nr+' gegeben.');
+  auswahlModus(false); reset();
+};
+$('#auswahlneu').onclick=()=>{ if(!gewaehlt.size) return toast('Erst Bilder markieren.');
+  toast(gewaehlt.size+' Bilder werden noch einmal frisch durch die Erkennung geschickt. Von Hand korrigierte bleiben unangetastet.'); };
 
-const dlg = document.getElementById('dlg');
+/* ---------- Detailkarte ---------- */
+const dlg=$('#dlg');
 function openCard(d){
-  dimg.src = d.img;
-  dnum.textContent = d.n || '?';
-  dnum.style.color = COL[d.s];
-  dst.innerHTML = `<span class="dot" style="background:${COL[d.s]}"></span>${NAME[d.s]}`;
-  dh.textContent = d.h; dd.textContent = d.d; df.textContent = d.f + '.ARW'; dt.textContent = d.t + ' Uhr';
+  $('#dimg').src = imgFor(d, d.s==='pruef'?{boxes:true,plate:null}:{});
+  $('#dnum').textContent = d.n || '—';
+  $('#dnum').style.color = COL[d.s];
+  $('#dst').innerHTML = `<span class="dot" style="background:${COL[d.s]}"></span>${NAME[d.s]}${d.gast?' · Gastfahrer':''}`;
+  $('#dh').textContent = d.h==='—'?'—':d.h;
+  $('#dd').textContent = d.d;
+  $('#df').textContent = d.f + (d.video?'.MP4':'.ARW');
+  $('#dt').textContent = d.t + ' Uhr';
   dlg.showModal();
 }
 
-document.getElementById('find').oninput = e => {
-  const q = e.target.value.trim();
-  sidebar(q);
-  const hit = riders().find(([n]) => n === q);
-  if(hit){ fNum = q; sidebar(q); render(); }
-};
+/* ---------- Starterliste ---------- */
+function starterliste(){
+  const feld=FELD[EVENT.id]||[];
+  $('#feltext').textContent = feld.length+' Startnummern hinterlegt · Gastfahrer sind markiert.';
+  const zeige=(q='')=>{
+    const f=feld.filter(x=>!q||String(x.n).includes(q));
+    $('#felliste').innerHTML = f.map(x=>`<div class="felz"><b>${x.n}</b>
+      <span class="sub">Beispiel-Teilnehmer</span>${x.gast?'<span class="gastp">GAST</span>':''}</div>`).join('')
+      || '<div class="sub">Keine Nummer gefunden.</div>';
+  };
+  zeige();
+  $('#felsuche').value=''; $('#felsuche').oninput=e=>zeige(e.target.value.trim());
+  $('#feldlg').showModal();
+}
 
-sidebar(); render();
+/* ---------- Prüfen ---------- */
+function pruefStart(){
+  PRUEFLISTE = EVENT.bilder.filter(d=>d.s==='pruef' || d.s==='wahr');
+  if(!PRUEFLISTE.length) return toast('Nichts zu prüfen – alles ist sicher zugeordnet.');
+  PRUEFPOS=0; zeige('pruef'); pruefZeige();
+}
+function pruefZeige(){
+  const d=PRUEFLISTE[PRUEFPOS];
+  PANSICHT='ganz'; setzeAnsicht();
+  $('#ptitel').textContent = d.s==='wahr' ? 'Bestätigung nötig' : 'Manuelle Prüfung';
+  $('#ppos').textContent = `Bild ${PRUEFPOS+1} von ${PRUEFLISTE.length}`;
+  $('#pbalken').style.width = ((PRUEFPOS)/PRUEFLISTE.length*100)+'%';
+  const gelesen = d.gelesen!==undefined ? d.gelesen : (d.n||'—');
+  $('#pnummer').textContent = gelesen;
+  $('#pnummer').style.color = gelesen==='—' ? 'var(--faint)' : (d.s==='wahr'?'var(--wahr)':'var(--text)');
+  $('#pgrund').textContent = d.grund || d.d;
+  $('#peingabe').value = d.n || (gelesen!=='—'?gelesen:'');
+  // Bilder
+  const revealPlate = d.reveal && d.reveal!=='—' ? d.reveal : (d.plate&&d.plate!=='—'?d.plate:(d.n||'48'));
+  $('#pimgGanz').src = szene({hue:d.hue, horse:d.horse, plate:null, faint:false, boxes:true});
+  $('#pimgCrop').src = ausschnitt(revealPlate, d.horse?120:150);
+  // Chips
+  const chips = d.chips && d.chips.length ? d.chips : (d.n?[d.n]:[]);
+  $('#pchips').innerHTML = chips.map((c,i)=>
+    `<button class="chip ${i===0&&d.reveal===c?'gelernt':''}" data-c="${c}">${c}${i===0&&d.reveal===c?' <small>passt zur Anfahrt</small>':i===0?' <small>gelesen</small>':''}</button>`).join('')
+    || '<span class="sub">Keine plausible Nummer – bitte selbst eintragen.</span>';
+  $$('#pchips .chip').forEach(c=>c.onclick=()=>{ $('#peingabe').value=c.dataset.c; });
+  // Nachbarbilder
+  const nb=d.neighbors||[];
+  $('.streifen').style.display = nb.length? 'flex':'none';
+  $('#pnachbarn').innerHTML = nb.map(x=>
+    `<div class="nb" data-n="${x.n}"><img src="${szene({hue:x.hue,horse:d.horse,plate:x.n})}" alt="Nachbarbild">
+       <span class="nbn">${x.n}</span></div>`).join('');
+  $$('#pnachbarn .nb').forEach(el=>el.onclick=()=>{ $('#peingabe').value=el.dataset.n;
+     toast('Nummer '+el.dataset.n+' vom Nachbarbild übernommen.'); });
+}
+function setzeAnsicht(){
+  const crop = PANSICHT==='crop';
+  $('#pimgGanz').style.opacity = crop?0:1;
+  $('#pimgCrop').style.opacity = crop?1:0;
+  const u=$('#umschalt');
+  u.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===PANSICHT));
+  const stelle=()=>{ const on=u.querySelector('button.on'), i=u.querySelector('i');
+    if(on.offsetWidth){ i.style.width=on.offsetWidth+'px'; i.style.transform=`translateX(${on.offsetLeft-4}px)`; } };
+  stelle(); requestAnimationFrame(stelle);
+  const badge=$('#pbadge');
+  if(crop){
+    badge.className='badge gruen'; badge.innerHTML='<span class="dot" style="background:#3ddc97"></span>Zuschnitt: Nummer klar gelesen — hohe Sicherheit';
+    $('#bunterschrift').textContent = 'Eng auf die Maschine zugeschnitten und 2,0-fach vergrößert wird dieselbe Tafel mit nahezu 100 % Sicherheit gelesen.';
+  }else{
+    badge.className='badge rot'; badge.innerHTML='<span class="dot" style="background:#ff9ba6"></span>Gesamtbild: Texterkennung findet nichts';
+    $('#bunterschrift').textContent = 'Auf dem ganzen Foto ist die Tafel im Verhältnis zu klein – auch bei voller 24-Megapixel-Auflösung liest die Texterkennung sie nicht. Der blaue Rahmen zeigt, was der Objekterkenner zuerst findet.';
+  }
+}
+$('#umschalt').querySelectorAll('button').forEach(b=>b.onclick=()=>{ PANSICHT=b.dataset.v; setzeAnsicht(); });
+function pruefWeiter(msg){ if(msg)toast(msg);
+  if(PRUEFPOS<PRUEFLISTE.length-1){ PRUEFPOS++; pruefZeige(); }
+  else { toast('Prüfung durchgearbeitet.'); zeige('event'); reset(); } }
+$('#pok').onclick   = ()=>{ const d=PRUEFLISTE[PRUEFPOS]; const nr=$('#peingabe').value.trim();
+  if(nr){ d.n=nr; d.s='sicher'; d.h='in der Prüfung bestätigt'; } pruefWeiter(nr?('Nummer '+nr+' übernommen.'):'Übernommen.'); };
+$('#pskip').onclick = ()=>pruefWeiter('Übersprungen.');
+$('#pkein').onclick = ()=>pruefWeiter('Als „kein Fahrer erkennbar“ vermerkt.');
+$('#pmeld').onclick = ()=>toast('Als „hätte erkannt werden müssen“ gemeldet – solche Fälle sammeln Trainingsdaten für einen eigenen Tafelerkenner.');
+
+/* ---------- Fahrerkartei ---------- */
+const KUNDEN = [
+  {label:'Beispielkunde A', nums:['499'], modus:'motorrad', events:[
+    {ev:'Enduro Beispielberg', bilder:[{n:'499',hue:150},{n:'499',hue:154},{n:'499',hue:158}]},
+    {ev:'Cross-Cup Mustertal', bilder:[{n:'499',hue:150},{n:'499',hue:156}]},
+  ]},
+  {label:'Beispielkunde B', nums:['111','7'], modus:'motorrad', events:[
+    {ev:'Enduro Beispielberg', bilder:[{n:'111',hue:96},{n:'111',hue:100},{n:'7',hue:30}]},
+  ]},
+  {label:'Beispielkunde C', nums:['299'], modus:'motorrad', events:[
+    {ev:'Enduro Beispielberg', bilder:[{n:'299',hue:210},{n:'299',hue:214},{n:'299',hue:206}]},
+    {ev:'Sommerlauf Demoheide', bilder:[{n:'299',hue:208}]},
+  ]},
+  {label:'Beispielkunde P', nums:['5'], modus:'pferd', events:[
+    {ev:'Springturnier Beispielhof', bilder:[{n:'5',hue:200,horse:true},{n:'5',hue:204,horse:true}]},
+  ]},
+];
+function karteiRender(){
+  const kunden=KUNDEN.filter(k=>k.modus===MODUS);
+  $('#karteiinhalt').innerHTML = `
+    <h1>Fahrerkartei</h1>
+    <div class="sub">${kunden.length} Kunden im ${MODUS==='pferd'?'Pferde':'Motorrad'}-Modus · Namen sind in der Demo durch Platzhalter ersetzt.</div>
+    ` + kunden.map((k,ki)=>`
+    <div class="kunde">
+      <div class="ktop">
+        ${k.nums.map(n=>`<span class="knum">${n}</span>`).join('')}
+        <span class="kname">${k.label}</span>
+        <span class="kmeta">${k.events.reduce((s,e)=>s+e.bilder.length,0)} Bilder · ${k.events.length} Veranstaltung(en)</span>
+        <span class="kbtn"><button class="btn stark" data-k="${ki}">Bilder herausgeben</button></span>
+      </div>
+      ${k.events.map(e=>`
+        <div class="evgrp">
+          <div class="evtitel">${e.ev}</div>
+          <div class="kstreifen">${e.bilder.map(b=>`<img src="${szene({hue:b.hue,horse:b.horse,plate:b.n})}" alt="Beispielbild">`).join('')}</div>
+        </div>`).join('')}
+    </div>`).join('');
+  $$('#karteiinhalt .kbtn .btn').forEach(b=>b.onclick=()=>{
+    const k=kunden[b.dataset.k];
+    toast('„Bilder herausgeben“ kopiert alle Bilder von '+k.label+' (Nr. '+k.nums.join(', ')+') über alle Rennen hinweg in einen Ordner.');
+  });
+}
+
+/* ---------- Hintergrund-Import (Fortschrittsleiste) ---------- */
+let importTimer=null;
+function simImport(){
+  const bar=$('#laufleiste'); bar.hidden=false; document.body.classList.add('hatlauf');
+  let n=0; const ziel=1000;
+  clearInterval(importTimer);
+  importTimer=setInterval(()=>{
+    n=Math.min(ziel, n+Math.round(28+Math.random()*46));
+    $('#lbal').style.width=(n/ziel*100)+'%';
+    $('#linfo').textContent=n+' / '+ziel;
+    if(n>=ziel){ clearInterval(importTimer);
+      $('#lsub').textContent='fertig · 1000 Bilder hinzugefügt';
+      setTimeout(()=>{ bar.hidden=true; document.body.classList.remove('hatlauf'); }, 2500);
+    }
+  }, 550);
+  toast('Ein weiterer Ordner wird im Hintergrund verarbeitet – Sie können weiterarbeiten. Große Ordner laufen in Blöcken zu je 1000.');
+}
+$('#lqueue').onclick=()=>toast('Warteschlange: laufende und wartende Aufträge. Große Ordner werden in Blöcken zu je 1000 Bildern verarbeitet.');
+$('#labbruch').onclick=()=>{ clearInterval(importTimer); $('#laufleiste').hidden=true;
+  document.body.classList.remove('hatlauf'); toast('Abgebrochen. Schon Erkanntes bleibt, die Originaldateien werden nie angefasst.'); };
+
+/* ---------- Toast ---------- */
+let toastTimer=null;
+function toast(msg){
+  const t=$('#toast'); t.textContent=msg; t.classList.add('an');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('an'), 5200);
+}
+
+/* ---------- Tastatur ---------- */
+document.addEventListener('keydown', e=>{
+  if($('#pruef').classList.contains('an')){
+    if(e.key==='ArrowLeft'){ PANSICHT='ganz'; setzeAnsicht(); }
+    else if(e.key==='ArrowRight'){ PANSICHT='crop'; setzeAnsicht(); }
+    else if(e.key==='Enter' && document.activeElement.id!=='peingabe'){ $('#pok').click(); }
+    else if(e.key==='Escape'){ zeige('event'); reset(); }
+  }
+});
+
+/* ---------- Start ---------- */
+document.body.dataset.modus=MODUS;
+menueRender();
 </script>
 </body>
 </html>
