@@ -131,45 +131,59 @@
   </header>
 
   <main id="main">
+    <!-- Hero: Kurzvorstellung links, Kurzprofil-Karte ("Auf einen Blick") rechts.
+         Die .intro-Elemente blenden beim Laden dezent ein (siehe @starting-style
+         in style.css); die Deckkraft bleibt dabei immer 1, der Inhalt ist also nie
+         unsichtbar – auch ohne JavaScript. Hintergrund (Glow + Raster) kommt aus CSS. -->
     <section id="top" class="hero">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <div class="hero-text" id="ueber-mich">
-            <p class="section-eyebrow">Praktikumsplatz Anwendungsentwicklung gesucht</p>
-            <h1>Mike Deutsch</h1>
-            <p class="role">Vom Metallbau zum Code – angehender Fachinformatiker für Anwendungsentwicklung in Bautzen</p>
-            <p>
-              Präzision aus dem Handwerk, jetzt im Code: Ich baue Werkzeuge, die echte
-              Probleme lösen – für eine Rennfotografin und einen Dienstleistungsbetrieb.
-              Ab März 2027 suche ich dafür einen Praktikumsplatz in der
-              Anwendungsentwicklung.
-            </p>
-            <ul class="hero-facts">
-              <li><strong>03/2026</strong><span>Umschulung gestartet</span></li>
-              <li><strong>2</strong><span>Projekte im echten Einsatz</span></li>
-              <li><strong>03/2027</strong><span>Praxisphase gesucht</span></li>
-            </ul>
-            <div class="cta-row">
-              <a class="btn btn-primary" href="#projekte">Projekte ansehen</a>
-              <a class="btn btn-secondary" href="#kontakt">Kontakt aufnehmen</a>
-            </div>
+      <div class="container hero-inner">
+        <!-- Linke Spalte: Verfügbarkeits-Badge, Name, Rolle, Intro, Buttons -->
+        <div class="hero-copy-col" id="ueber-mich">
+          <p class="hero-badge intro"><span class="status-dot"></span> Praktikumsplatz Anwendungsentwicklung · ab 03/2027</p>
+          <h1 class="intro">Mike <span class="grad">Deutsch</span></h1>
+          <p class="role intro">Vom Metallbau zum Code — angehender Fachinformatiker für Anwendungsentwicklung in Bautzen</p>
+          <p class="hero-lead intro">
+            Präzision aus dem Handwerk, jetzt im Code: Ich baue Werkzeuge, die echte
+            Probleme lösen — für eine Rennfotografin und einen Dienstleistungsbetrieb.
+            Ab März 2027 suche ich dafür einen Praktikumsplatz in der
+            Anwendungsentwicklung.
+          </p>
+          <div class="cta-row intro">
+            <a class="btn btn-primary" href="#projekte">Projekte ansehen
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="btn btn-secondary" href="#kontakt">Kontakt aufnehmen</a>
           </div>
         </div>
-        <div class="hero-photo" aria-hidden="true">
-          <span class="hero-code">&lt;/&gt;</span>
-          <span class="hero-monogram">MD</span>
-        </div>
+        <!-- Rechte Spalte: Kurzprofil-Karte (ersetzt das frühere Platzhalter-Panel).
+             Stapelt unter die Textspalte auf schmalen Bildschirmen. -->
+        <aside class="hero-card intro" aria-label="Kurzprofil">
+          <p class="hc-eyebrow">Auf einen Blick</p>
+          <div class="hc-stats">
+            <div><strong>2</strong><span>Projekte im Einsatz</span></div>
+            <div><strong>03/27</strong><span>verfügbar ab</span></div>
+          </div>
+          <dl class="hc-list">
+            <div><dt>Status</dt><dd><span class="status-dot"></span> Praktikum gesucht</dd></div>
+            <div><dt>Umschulung</dt><dd>WBS TRAINING (IHK), seit 03/2026</dd></div>
+            <div><dt>Schwerpunkt</dt><dd>Web- &amp; Anwendungsentwicklung</dd></div>
+            <div><dt>Davor</dt><dd>9 Jahre Metallbau &amp; Konstruktion</dd></div>
+            <div><dt>Standort</dt><dd>Bautzen, Sachsen</dd></div>
+          </dl>
+        </aside>
       </div>
     </section>
 
+    <!-- Werdegang: Zeitstrahl. Die aktuelle Station trägt .now (Akzent + "Jetzt"-Tag),
+         Ältere Stationen stehen eingeklappt im <details> darunter. -->
     <section id="werdegang">
       <div class="container">
         <p class="section-eyebrow">Werdegang</p>
         <h2>Handwerk zuerst, Software jetzt</h2>
         <ol class="timeline">
-          <li>
+          <li class="now">
             <span class="period">seit 03/2026</span>
-            <h3>Umschulung zum Fachinformatiker für Anwendungsentwicklung (IHK)</h3>
+            <h3>Umschulung zum Fachinformatiker für Anwendungsentwicklung (IHK)<span class="now-tag">Jetzt</span></h3>
             <p class="org">WBS TRAINING SE, Bautzen · Abschluss voraussichtlich 03/2028</p>
             <ul class="tag-list">
               <li>Java</li>
@@ -219,6 +233,7 @@
       </div>
     </section>
 
+    <!-- Skills: je Gruppe eine Karte mit Pills. Raster bricht automatisch um. -->
     <section id="skills">
       <div class="container">
         <p class="section-eyebrow">Skills</p>
@@ -269,12 +284,15 @@
       </div>
     </section>
 
+    <!-- Projekte: Karten mit großer Index-Nummer, Status-Badge, Tech-Tags und
+         Live-Demo-Button. .reveal blendet sie beim Scrollen ein (siehe main.js). -->
     <section id="projekte">
       <div class="container">
         <p class="section-eyebrow">Projekte</p>
         <h2>Was ich schon gebaut habe</h2>
         <div class="project-grid">
           <article class="project-card reveal">
+            <span class="project-index" aria-hidden="true">01</span>
             <span class="badge">Privates Projekt · für eine reale Firma</span>
             <h3>Digitale Auftragsverwaltung für ein Dienstleistungsunternehmen</h3>
             <p>
@@ -293,11 +311,14 @@
               <li>Vercel</li>
             </ul>
             <div class="card-actions">
-              <a class="btn btn-demo" href="auftragsverwaltung-live-demo.html" target="_blank" rel="noopener">Live-Demo ansehen</a>
+              <a class="btn btn-demo" href="auftragsverwaltung-live-demo.html" target="_blank" rel="noopener">Live-Demo ansehen
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article class="project-card reveal" data-delay="1">
+            <span class="project-index" aria-hidden="true">02</span>
             <span class="badge">Privates Projekt · im Kundeneinsatz</span>
             <h3>Startnummern-Erkennung für Rennfotografie</h3>
             <p>
@@ -316,13 +337,16 @@
               <li>Lokale Weboberfläche</li>
             </ul>
             <div class="card-actions">
-              <a class="btn btn-demo" href="startnummern-live-demo.html" target="_blank" rel="noopener">Live-Demo ansehen</a>
+              <a class="btn btn-demo" href="startnummern-live-demo.html" target="_blank" rel="noopener">Live-Demo ansehen
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
             </div>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- Kontakt: Verlaufsband mit feinem Raster-Overlay, E-Mail + GitHub. -->
     <section id="kontakt">
       <div class="container">
         <p class="section-eyebrow">Kontakt</p>
