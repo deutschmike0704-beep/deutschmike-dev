@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="MD">
-  <rect width="64" height="64" rx="16" fill="#2657eb"/>
-  <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle"
-        font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif"
-        font-weight="700" font-size="28" fill="#ffffff">MD</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Mike Deutsch">
+  <!-- Favicon: Amber-Badge mit dunklem MD-Monogramm. Bei 16 px klar erkennbar. -->
+  <rect width="64" height="64" rx="14" fill="#efaa14"/>
+  <g fill="none" stroke="#231f20" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M12 46 V18 L21 30 L30 18 V46"/>
+    <path d="M30 18 H39 C47 18 51 23 51 32 C51 41 47 46 39 46 H30"/>
+  </g>
 </svg>

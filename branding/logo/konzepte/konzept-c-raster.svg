@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Mike Deutsch – Monogramm" style="color:#121316">
+  <!-- Konzept C: Konstruiertes Raster. M und D aus einer gemeinsamen Linienstärke,
+       die rechte Senkrechte des M ist zugleich der Stamm des D. CAD-Knoten an den
+       Eckpunkten, dahinter ein feines Konstruktionsraster.
+       ink/raster = currentColor, Knoten = var(--lac). -->
+  <style>@media (prefers-color-scheme: dark){svg{color:#f4f5f3}}</style>
+  <g stroke="currentColor" stroke-width="1" opacity="0.14">
+    <path d="M8 0V64 M24 0V64 M40 0V64 M56 0V64 M0 8H64 M0 24H64 M0 40H64 M0 56H64"/>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M12 48 V16 L21 29 L30 16 V48"/>
+    <path d="M30 16 H40 C48 16 52 22 52 32 C52 42 48 48 40 48 H30"/>
+  </g>
+  <g fill="var(--lac,#efaa14)">
+    <circle cx="12" cy="16" r="2.4"/>
+    <circle cx="12" cy="48" r="2.4"/>
+    <circle cx="21" cy="29" r="2.4"/>
+    <circle cx="30" cy="16" r="2.4"/>
+    <circle cx="30" cy="48" r="2.4"/>
+    <circle cx="52" cy="32" r="2.4"/>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Mike Deutsch">
+  <!-- Quelle für die PNG-Icons (apple-touch, manifest). Vollflächiges Amber,
+       dunkles MD mit großzügigem Sicherheitsrand (maskable-tauglich). -->
+  <rect width="512" height="512" fill="#efaa14"/>
+  <g transform="translate(256 256) scale(7.4) translate(-32 -32)"
+     fill="none" stroke="#231f20" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M12 46 V18 L21 30 L30 18 V46"/>
+    <path d="M30 18 H39 C47 18 51 23 51 32 C51 41 47 46 39 46 H30"/>
+  </g>
+</svg>

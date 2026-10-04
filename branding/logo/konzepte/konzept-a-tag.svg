@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 64" role="img" aria-label="Mike Deutsch – Monogramm" style="color:#121316">
+  <!-- Konzept A: Tag-Monogramm <M/D>. Spitze Klammern umschließen M und D,
+       ein Amber-Schrägstrich trennt sie wie ein Pfad-Separator.
+       ink = currentColor (hell/dunkel steuerbar), Akzent = var(--lac). -->
+  <style>@media (prefers-color-scheme: dark){svg{color:#f4f5f3}}</style>
+  <g fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <polyline stroke="currentColor" points="32,16 17,32 32,48"/>
+    <path     stroke="currentColor" d="M44 48 V16 L57 33 L70 16 V48"/>
+    <line     stroke="var(--lac,#efaa14)" x1="79" y1="50" x2="93" y2="14"/>
+    <path     stroke="currentColor" d="M101 16 V48 M101 16 H110 C120 16 125 22 125 32 C125 42 120 48 110 48 H101"/>
+    <polyline stroke="currentColor" points="133,16 148,32 133,48"/>
+  </g>
+</svg>

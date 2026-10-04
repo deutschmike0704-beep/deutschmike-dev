@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="91mm" height="61mm" viewBox="0 0 91 61">
+  <!-- Visitenkarte Vorderseite. 91×61 mm inkl. 3 mm Beschnitt → Endformat 85×55 mm.
+       Beschnittkante bei 3/88 (x) bzw. 3/58 (y); Sicherheitsabstand 4 mm → Inhalt ab 7.
+       Alle Koordinaten in mm. Farbwelt wie Website (Dark #0c0d0e, Amber #efaa14). -->
+  <defs>
+    <radialGradient id="glow" cx="90%" cy="0%" r="75%">
+      <stop offset="0%" stop-color="#efaa14" stop-opacity="0.20"/>
+      <stop offset="55%" stop-color="#efaa14" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#efaa14" stop-opacity="0"/>
+    </radialGradient>
+    <style>
+      @font-face { font-family:"Poppins"; font-weight:700; font-display:block;
+        src:url("../../assets/fonts/poppins-700.woff2") format("woff2"); }
+      @font-face { font-family:"Poppins"; font-weight:600; font-display:block;
+        src:url("../../assets/fonts/poppins-600.woff2") format("woff2"); }
+      .name { font-family:"Poppins"; font-weight:700; }
+      .sans { font-family:"Poppins"; font-weight:600; }
+    </style>
+  </defs>
+
+  <!-- Hintergrund (volle Beschnittfläche) + weicher Amber-Glow oben rechts -->
+  <rect x="0" y="0" width="91" height="61" fill="#0c0d0e"/>
+  <rect x="0" y="0" width="91" height="61" fill="url(#glow)"/>
+
+  <!-- Monogramm oben rechts (ersetzt das gerahmte MD), ohne Konstruktionsraster -->
+  <g transform="translate(69 7.5) scale(0.2344)">
+    <g fill="none" stroke="#f7f7f2" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M12 48 V16 L21 29 L30 16 V48"/>
+      <path d="M30 16 H40 C48 16 52 22 52 32 C52 42 48 48 40 48 H30"/>
+    </g>
+    <g fill="#efaa14">
+      <circle cx="12" cy="16" r="2.4"/><circle cx="12" cy="48" r="2.4"/><circle cx="21" cy="29" r="2.4"/>
+      <circle cx="30" cy="16" r="2.4"/><circle cx="30" cy="48" r="2.4"/><circle cx="52" cy="32" r="2.4"/>
+    </g>
+  </g>
+
+  <!-- Amber-Strich über dem Namen -->
+  <rect x="7" y="26" width="11" height="0.9" rx="0.45" fill="#efaa14"/>
+
+  <!-- Name -->
+  <text class="name" x="7" y="34.2" font-size="8" fill="#f7f7f2">Mike <tspan fill="#efaa14">Deutsch</tspan></text>
+
+  <!-- Unterzeile (grau) -->
+  <text class="sans" x="7" y="40" font-size="2.8" fill="#a0a6ae">Angehender Fachinformatiker für</text>
+  <text class="sans" x="7" y="43.6" font-size="2.8" fill="#a0a6ae">Anwendungsentwicklung (i.&#8201;A.)</text>
+
+  <!-- Kontakt-Bullets (Amber-Punkte) -->
+  <g>
+    <circle cx="7.7" cy="48.2" r="0.7" fill="#efaa14"/>
+    <text class="sans" x="9.6" y="49" font-size="2.6" fill="#e9e9e3">+49&#8201;151&#8201;55684283</text>
+    <circle cx="7.7" cy="52.2" r="0.7" fill="#efaa14"/>
+    <text class="sans" x="9.6" y="53" font-size="2.6" fill="#e9e9e3">deutschmike0704@proton.me</text>
+  </g>
+
+  <!-- Domain (Amber), unten rechts -->
+  <text class="name" x="84" y="53" font-size="3.2" fill="#efaa14" text-anchor="end">deutschmike.dev</text>
+</svg>

@@ -6,8 +6,8 @@
   <title>Mike Deutsch – Fachinformatiker für Anwendungsentwicklung (i. A.)</title>
   <meta name="description" content="Portfolio von Mike Deutsch: Umschüler zum Fachinformatiker für Anwendungsentwicklung bei WBS TRAINING, auf der Suche nach einem Praktikumsplatz. Werdegang, Skills und Projekte.">
   <meta name="google-site-verification" content="cb3Qz9XQgxOxnwIaeNMOxwxwZ_Ee6lUNGkFh8p6T5OQ">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfbfa">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1115">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f2">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0d0e">
   <meta property="og:type" content="profile">
   <meta property="profile:first_name" content="Mike">
   <meta property="profile:last_name" content="Deutsch">
@@ -113,7 +113,21 @@
 
   <header class="site-header">
     <div class="container">
-      <a class="brand" href="#top">Mike Deutsch</a>
+      <a class="brand" href="#top" aria-label="Mike Deutsch – zur Startseite">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" focusable="false">
+            <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
+              <path class="bm-stroke" pathLength="1" d="M12 48 V16 L21 29 L30 16 V48"/>
+              <path class="bm-stroke" pathLength="1" d="M30 16 H40 C48 16 52 22 52 32 C52 42 48 48 40 48 H30"/>
+            </g>
+            <g class="bm-node" fill="#efaa14">
+              <circle cx="12" cy="16" r="2.4"/><circle cx="12" cy="48" r="2.4"/><circle cx="21" cy="29" r="2.4"/>
+              <circle cx="30" cy="16" r="2.4"/><circle cx="30" cy="48" r="2.4"/><circle cx="52" cy="32" r="2.4"/>
+            </g>
+          </svg>
+        </span>
+        <span class="brand-name">Mike Deutsch</span>
+      </a>
       <input class="nav-toggle" type="checkbox" id="nav-toggle">
       <label class="nav-toggle-label" for="nav-toggle" aria-label="Menü öffnen">
         <span></span>
@@ -136,6 +150,14 @@
          in style.css); die Deckkraft bleibt dabei immer 1, der Inhalt ist also nie
          unsichtbar – auch ohne JavaScript. Hintergrund (Glow + Raster) kommt aus CSS. -->
     <section id="top" class="hero">
+      <!-- Sehr blasses Monogramm-Wasserzeichen, blutet rechts aus dem Bild.
+           Rein dekorativ, niedrige Deckkraft, bleibt ruhig hinter dem Inhalt. -->
+      <svg class="hero-watermark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
+          <path d="M12 48 V16 L21 29 L30 16 V48"/>
+          <path d="M30 16 H40 C48 16 52 22 52 32 C52 42 48 48 40 48 H30"/>
+        </g>
+      </svg>
       <div class="container hero-inner">
         <!-- Linke Spalte: Verfügbarkeits-Badge, Name, Rolle, Intro, Buttons -->
         <div class="hero-copy-col" id="ueber-mich">
