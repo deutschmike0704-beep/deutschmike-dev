@@ -22,6 +22,7 @@ index.html                Startseite (Hero, Websites, Startnummern, Projekte, Ab
                           Über mich, FAQ, Kontakt), inkl. JSON-LD (Person, WebSite,
                           WebPage, ProfessionalService, Service, SoftwareApplication,
                           FAQPage) und OG/Twitter-Tags
+werdegang.html            Werdegang, Umschulung, Praktikumssuche (bewusst nicht auf der Startseite)
 impressum.html            Impressum (§ 5 DDG), noindex
 datenschutz.html          Datenschutzerklärung, noindex
 404.html                  Fehlerseite für GitHub Pages
@@ -47,7 +48,7 @@ _material/                Rohmaterial/Arbeitsaufträge zur Website-Erstellung, n
   ueber-mich, faq, kontakt). FAQ-Texte stehen doppelt (sichtbar und im
   FAQPage-JSON-LD) – beide gleich halten.
 - **Zahlen**: nur aus `_material/PROJEKT-DOKUMENTATION.md` übernehmen, immer
-  mit Messbedingung. Keine Preise, solange Modus REFERENZ gilt.
+  mit Messbedingung. Keine Preise ohne Mikes Freigabe.
   Werden Name, Beruf, Ort oder Werdegang geändert, bitte auch das
   JSON-LD-Skript (`<script type="application/ld+json">` im `<head>`) und die
   `og:`/`twitter:`-Meta-Tags mitziehen, sonst laufen strukturierte Daten und

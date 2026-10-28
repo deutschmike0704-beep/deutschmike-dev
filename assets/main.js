@@ -17,10 +17,6 @@
       subject: "Anfrage: Startnummern-Erkennung",
       text: "Hallo Mike, ich interessiere mich für die Startnummern-Erkennung für meine Rennfotos."
     },
-    praktikum: {
-      subject: "Praktikum Anwendungsentwicklung",
-      text: "Hallo Mike, ich melde mich wegen eines Praktikumsplatzes."
-    },
     sonstiges: {
       subject: "Anfrage über deutschmike.dev",
       text: "Hallo Mike, "
