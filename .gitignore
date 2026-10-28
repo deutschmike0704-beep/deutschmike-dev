@@ -3,7 +3,10 @@
 # Referenzmaterial für die Website-Erstellung, kein Website-Inhalt
 _material/
 Startnummern-Erkennung/
-Bewerbung_Mike_Deutsch_Saegeling_IT_GmbH.pdf
+Bewerbung_*.pdf
 
 # Enthält echte Kundenfotos einer Veranstaltung, niemals veröffentlichen
 Demo-Startnummern.html
+
+# Lokale Werkzeug-Konfiguration
+.claude/

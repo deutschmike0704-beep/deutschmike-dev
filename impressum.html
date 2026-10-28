@@ -6,8 +6,7 @@
   <title>Impressum – Mike Deutsch</title>
   <meta name="description" content="Impressum von deutschmike.dev.">
   <meta name="robots" content="noindex">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f2">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0c0d0e">
+  <meta name="theme-color" content="#0c0d0e">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="canonical" href="https://deutschmike.dev/impressum.html">
@@ -15,33 +14,33 @@
 </head>
 <body class="legal">
   <header class="site-header">
-    <div class="container">
-      <a class="brand" href="index.html" aria-label="Mike Deutsch – zur Startseite">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 64 64" focusable="false">
-            <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
-              <path d="M12 48 V16 L21 29 L30 16 V48"/>
-              <path d="M30 16 H40 C48 16 52 22 52 32 C52 42 48 48 40 48 H30"/>
-            </g>
-            <g fill="#efaa14">
-              <circle cx="12" cy="16" r="2.4"/><circle cx="12" cy="48" r="2.4"/><circle cx="21" cy="29" r="2.4"/>
-              <circle cx="30" cy="16" r="2.4"/><circle cx="30" cy="48" r="2.4"/><circle cx="52" cy="32" r="2.4"/>
-            </g>
-          </svg>
-        </span>
-        <span class="brand-name">Mike Deutsch</span>
+    <div class="container header-inner">
+      <a class="brand" href="./" aria-label="Mike Deutsch – zur Startseite">
+        <svg class="brand-mark" viewBox="0 0 64 64" width="28" height="28" aria-hidden="true" focusable="false">
+          <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter">
+            <path d="M12 48 V16 L21 29 L30 16 V48"/>
+            <path d="M30 16 H40 C48 16 52 22 52 32 C52 42 48 48 40 48 H30"/>
+          </g>
+          <g fill="#efaa14">
+            <circle cx="12" cy="16" r="2.4"/><circle cx="12" cy="48" r="2.4"/><circle cx="21" cy="29" r="2.4"/>
+            <circle cx="30" cy="16" r="2.4"/><circle cx="30" cy="48" r="2.4"/><circle cx="52" cy="32" r="2.4"/>
+          </g>
+        </svg>
+        <span>Mike Deutsch</span>
       </a>
+      <a class="btn btn-small btn-primary" href="./#kontakt">Kontakt</a>
     </div>
   </header>
 
   <main>
-    <a class="back-link" href="index.html">← Zurück zur Startseite</a>
+    <a class="back-link" href="./">← Zurück zur Startseite</a>
     <h1>Impressum</h1>
     <p>Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz)</p>
 
-    <h2>Angaben zur Person</h2>
+    <h2>Diensteanbieter</h2>
     <p>
       Mike Deutsch<br>
+      Einzelunternehmer (Nebengewerbe)<br>
       Zinzendorfstraße 11<br>
       02625 Bautzen<br>
       Deutschland
@@ -53,27 +52,39 @@
       E-Mail: <a href="mailto:deutschmike0704@proton.me">deutschmike0704@proton.me</a>
     </p>
 
+    <!-- Sobald eine Umsatzsteuer-Identifikationsnummer vergeben ist, hier ergänzen:
+    <h2>Umsatzsteuer-ID</h2>
+    <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: DE…</p>
+    Die Steuernummer gehört nicht ins Impressum. -->
+
     <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
     <p>
       Mike Deutsch, Anschrift wie oben.
     </p>
 
-    <h2>Haftungshinweis</h2>
+    <h2>Verbraucherstreitbeilegung</h2>
     <p>
-      Diese Seite ist eine private, nicht-kommerzielle Vorstellungsseite ohne
-      Gewinnerzielungsabsicht. Trotz sorgfältiger inhaltlicher Kontrolle wird
-      keine Haftung für die Inhalte externer, verlinkter Seiten übernommen.
-      Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber
-      verantwortlich.
+      Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren
+      vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).
+    </p>
+
+    <h2>Haftung für Links</h2>
+    <p>
+      Diese Website enthält Links zu externen Websites Dritter. Auf deren
+      Inhalte habe ich keinen Einfluss; für sie ist der jeweilige Anbieter
+      oder Betreiber verantwortlich. Zum Zeitpunkt der Verlinkung waren keine
+      Rechtsverstöße erkennbar. Werden mir Rechtsverletzungen bekannt, entferne
+      ich die betreffenden Links umgehend.
     </p>
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      <p>© 2026 Mike Deutsch</p>
+    <div class="container footer-inner">
+      <p>© 2026 Mike Deutsch · Bautzen</p>
       <ul class="footer-links">
         <li><a href="impressum.html">Impressum</a></li>
         <li><a href="datenschutz.html">Datenschutz</a></li>
+        <li><a href="https://github.com/deutschmike0704-beep" rel="me noopener">GitHub</a></li>
       </ul>
     </div>
   </footer>
